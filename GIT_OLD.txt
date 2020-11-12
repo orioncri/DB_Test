@@ -1,0 +1,16 @@
+total 300
+drwxrwxr-x.  13 rrivas rrivas   4096 Nov 12 12:08 .
+drwx------.  31 rrivas rrivas   4096 Nov 12 12:06 ..
+drwxrwxr-x.   3 rrivas rrivas    124 Nov 12 12:09 DB_Test
+-rw-rw-r--.   1 rrivas rrivas     79 Nov  2 15:49 myClient.js
+drwxr-xr-x. 446 rrivas rrivas  16384 Nov  2 16:19 node_modules
+-rw-r--r--.   1 rrivas rrivas 246001 Nov  2 16:18 package-lock.json
+drwxrwxr-x.  17 rrivas rrivas   4096 Nov  2 12:08 swipl-devel
+drwxrwxr-x.   5 rrivas rrivas    184 Oct 22 16:40 terminusdb-bootstrap
+drwxrwxr-x.   8 rrivas rrivas   4096 Nov  4 15:37 terminusdb-client-js
+drwxrwxr-x.   6 rrivas rrivas   4096 Nov  2 14:34 terminusdb-client-python
+drwxrwxr-x.  13 rrivas rrivas   4096 Oct 27 16:29 terminusdb-doc
+drwxrwxr-x.  14 rrivas rrivas   4096 Oct 27 16:35 terminusdb-server
+drwxrwxr-x.   7 rrivas rrivas    196 Oct 27 16:30 terminusdb-store
+drwxrwxr-x.   8 rrivas rrivas    251 Nov  4 16:31 terminusdb-todoapp
+drwxrwxr-x.  17 rrivas rrivas   4096 Oct 27 16:25 terminusdb-tutorials

@@ -1,0 +1,73 @@
+NGA,Date.From,Date.To,Iron
+Latium,-9999,-401,A
+Latium,-400,2000,P
+Paris Basin,-9999,-501,A
+Paris Basin,-500,2000,P
+Iceland,-9999,899,A
+Iceland,900,2000,P
+Upper Egypt,-9999,-501,A
+Upper Egypt,-500,2000,P
+Niger Inland Delta,-9999,-501,A
+Niger Inland Delta,-500,2000,P
+Ghanaian Coast,-9999,-301,A
+Ghanaian Coast,-300,2000,P
+Crete,-9999,-701,A
+Crete,-700,2000,P
+Galilee,-9999,-801,A
+Galilee,-800,2000,P
+Southern Mesopotamia,-9999,-701,A
+Southern Mesopotamia,-700,2000,P
+Susiana,-9999,-801,A
+Susiana,-800,2000,P
+Konya Plain,-9999,-701,A
+Konya Plain,-700,2000,P
+Yemeni Coastal Plain,-9999,-501,A
+Yemeni Coastal Plain,-500,99,A~P
+Yemeni Coastal Plain,100,2000,P
+Kachi Plain,-9999,-901,A
+Kachi Plain,-900,2000,P
+Middle Ganga,-9999,-901,A
+Middle Ganga,-900,2000,P
+Deccan,-9999,-601,A
+Deccan,-600,2000,P
+Garo Hills,-9999,-501,A
+Garo Hills,-500,1399,A~P
+Garo Hills,1400,2000,P
+Cambodian Basin,-9999,-301,A
+Cambodian Basin,-300,2000,P
+Central Java,-9999,549,A
+Central Java,550,2000,P
+Kapuasi Basin,-9999,999,A
+Kapuasi Basin,1000,2000,P
+Middle Yellow River Valley,-9999,-301,A
+Middle Yellow River Valley,-300,2000,P
+Kansai,-9999,99,A
+Kansai,100,2000,P
+Southern China Hills,-9999,-301,A
+Southern China Hills,-300,2000,P
+Sogdiana,-9999,-401,A
+Sogdiana,-400,2000,P
+Orkhon Valley,-9999,-251,A
+Orkhon Valley,-250,2000,P
+Lena River Valley,-9999,-1,A
+Lena River Valley,1,2000,P
+Valley of Oaxaca,-9999,1519,A
+Valley of Oaxaca,1520,2000,P
+Cahokia,-9999,1849,A
+Cahokia,1850,2000,P
+Finger Lakes,-9999,1749,A
+Finger Lakes,1750,2000,P
+Cuzco,-9999,1532,A
+Cuzco,1533,2000,P
+North Colombia,-9999,1599,A
+North Colombia,1600,2000,P
+Lowland Andes,-9999,1849,A
+Lowland Andes,1850,2000,P
+Big Island Hawaii,-9999,1780,A
+Big Island Hawaii,1781,2000,P
+Oro PNG,-9999,1849,A
+Oro PNG,1850,2000,P
+Chuuk Islands,-9999,1849,A
+Chuuk Islands,1850,2000,P
+Basin of Mexico,-9999,1519,A
+Basin of Mexico,1520,2000,P
