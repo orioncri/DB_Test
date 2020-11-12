@@ -1,0 +1,18 @@
+total 1137640
+drwxrwxrwx.  4 110493   5000      4096 Oct 22 16:58 .
+drwx------. 17 rrivas rrivas      4096 Nov 12 11:11 ..
+-rw-rw-r--.  1 rrivas rrivas 505863385 Oct 22 15:55 Docker.dmg
+-rw-rw-r--.  1 rrivas rrivas   5928730 Oct 22 16:33 git-2.9.5.tar.gz
+-rw-rw-r--.  1 rrivas rrivas   2532753 Oct 22 16:33 git-htmldocs-2.9.5.tar.gz
+-rw-rw-r--.  1 rrivas rrivas    633471 Oct 22 16:34 git-manpages-2.9.5.tar.gz
+drwxrwxr-x. 69 root   root        4096 Oct 21 15:09 glibc-2.23
+-rw-rw-r--.  1 rrivas rrivas 520878080 Oct 21 16:46 glibc-2.23_built.tar
+-rw-rw-r--.  1 rrivas rrivas  27186449 Feb 18  2016 glibc-2.23.tar.gz
+-rw-r--r--.  1 root   root         616 Oct 22 15:14 httpd.log
+-rw-r--r--.  1 root   root        2698 Oct 22 12:25 index.html
+-rw-rw-r--.  1 rrivas rrivas      4935 Oct 21 15:22 Readme.txt
+-rw-r--r--.  1 root   root        1604 Oct 22 12:25 registry.pl
+drwxr-xr-x.  2 root   root          28 Oct 22 12:25 storage
+-rwxrwxr-x.  1 rrivas rrivas 101854418 Oct 21 14:43 terminusdb-desktop.AppImage
+-rw-r--r--.  1 root   root       10401 Oct 22 12:55 terminusdb-desktop.AppImage.log_A
+-rw-rw-r--.  1 rrivas rrivas      1090 Oct 22 16:58 TerminusDB_Install.txt

@@ -1,0 +1,5 @@
+total 4
+drwxrwxr-x.  4 rrivas rrivas   49 Nov 12 11:08 .
+drwx------. 17 rrivas rrivas 4096 Nov 12 11:12 ..
+drwxrwxr-x.  3 rrivas rrivas   69 Nov 12 11:08 DB_Test
+drwxrwxr-x.  5 rrivas rrivas  184 Oct 22 16:40 terminusdb-bootstrap
