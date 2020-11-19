@@ -1,3 +1,26 @@
+WOQL.and(         
+    WOQL.doctype("Station")             
+        .label("Bike Station")             
+        .description("A station where bicycles are deposited"),         
+    WOQL.doctype("Bicycle")             
+        .label("Bicycle"),         
+    WOQL.doctype("Journey")             
+        .label("Journey")             
+        .property("start_station", "Station")
+            .label("Start Station")             
+        .property("end_station", "Station")
+            .label("End Station")                                                
+        .property("duration", "integer")
+            .label("Journey Duration")         
+        .property("start_time", "dateTime")
+            .label("Time Started")
+        .property("end_time", "dateTime")
+            .label("Time Ended")
+        .property("journey_bicycle", "Bicycle")
+            .label("Bicycle Used")
+)
+
+
 const csv = WOQL.get(
     WOQL.as("Start station","v:Start_Station")
         .as("End station", "v:End_Station")
