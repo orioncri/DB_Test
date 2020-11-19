@@ -7,3 +7,16 @@ WOQL.select("v:Start", "v:Start_Label", "v:End", "v:End_Label").and(
 	WOQL.triple("v:Journey", "journey_bicycle", "v:Bike")
 )
 
+WOQL.select("v:Start", "v:Start_Label").and(
+        WOQL.triple("v:Journey", "start_station", "v:Start")
+)
+
+WOQL.select("v:Id").and(
+        WOQL.triple("v:Object", "id", "v:Id")
+)
+
+WOQL.select("v:Id", "v:Object_type").and(
+        WOQL.triple("v:Object", "id", "scm:Object"),
+        WOQL.triple("v:Object", "object_type", "scm:Object")
+)
+
