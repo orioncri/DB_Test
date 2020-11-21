@@ -81,84 +81,84 @@ const hasSchema = () => {
 const addExamples = () => {
   console.log('# add data 0')
 
-  //--INSERT INTO test3.object (id, object_type) values (0, null);
+  //--INSERT INTO test3.object (id, object type) values (0, null);
   DB.query(Q
-    .add_triple('doc:Object', 'object_type', 'scm:Object')
-    .add_triple('doc:Object', 'id', Q.literal(0, 'integer'))
-    .add_triple('doc:Object', 'object_type', Q.literal(null, 'string'))
-    .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+    .add_triple('doc:object1', 'type', 'scm:Object')
+    .add_triple('doc:object1', 'id', Q.literal(0, 'integer'))
+    .add_triple('doc:object1', 'type', Q.literal(null, 'string'))
+    .add_triple('doc:object1', 'completed', Q.literal(true, 'boolean'))
     .comment('Add an example data 0')
   ).then(() => {
     console.log('# add data 0')
     //--INSERT INTO test3.object (id, object_type) values (1, 'City');
     DB.query(Q
-      .add_triple('doc:Object', 'object_type', 'scm:Object')
-      .add_triple('doc:Object', 'id', Q.literal(1, 'integer'))
-      .add_triple('doc:Object', 'object_type', Q.literal('City', 'string'))
-      .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+      .add_triple('doc:object2', 'type', 'scm:Object')
+      .add_triple('doc:object2', 'id', Q.literal(1, 'integer'))
+      .add_triple('doc:object2', 'type', Q.literal('City', 'string'))
+      .add_triple('doc:object2', 'completed', Q.literal(true, 'boolean'))
       .comment('Add an example data 1')
     ).then(() => {
       console.log('# add data 1')
       //--INSERT INTO test3.object (id, object_type) values (2, 'Person');
       DB.query(Q
-        .add_triple('doc:Object', 'object_type', 'scm:Object')
-        .add_triple('doc:Object', 'id', Q.literal(2, 'integer'))
-        .add_triple('doc:Object', 'object_type', Q.literal('Person', 'string'))
-        .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+        .add_triple('doc:object3', 'type', 'scm:Object')
+        .add_triple('doc:object3', 'id', Q.literal(2, 'integer'))
+        .add_triple('doc:object3', 'type', Q.literal('Person', 'string'))
+        .add_triple('doc:object3', 'completed', Q.literal(true, 'boolean'))
         .comment('Add an example data 2')
       ).then(() => {
         console.log('# add data 2')
         //--INSERT INTO test3.object (id, object_type) values (3, 'City');
         DB.query(Q
-          .add_triple('doc:Object', 'object_type', 'scm:Object')
-          .add_triple('doc:Object', 'id', Q.literal(3, 'integer'))
-          .add_triple('doc:Object', 'object_type', Q.literal('City', 'string'))
-          .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+          .add_triple('doc:object4', 'type', 'scm:Object')
+          .add_triple('doc:object4', 'id', Q.literal(3, 'integer'))
+          .add_triple('doc:object4', 'type', Q.literal('City', 'string'))
+          .add_triple('doc:object4', 'completed', Q.literal(true, 'boolean'))
           .comment('Add an example data 3')
         ).then(() => {
           console.log('# add data 3')
           //--INSERT INTO test3.object (id, object_type) values (4, 'Person');
           DB.query(Q
-            .add_triple('doc:Object', 'object_type', 'scm:Object')
-            .add_triple('doc:Object', 'id', Q.literal(4, 'integer'))
-            .add_triple('doc:Object', 'object_type', Q.literal('Person', 'string'))
-            .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+            .add_triple('doc:object5', 'type', 'scm:Object')
+            .add_triple('doc:object5', 'id', Q.literal(4, 'integer'))
+            .add_triple('doc:object5', 'type', Q.literal('Person', 'string'))
+            .add_triple('doc:object5', 'completed', Q.literal(true, 'boolean'))
             .comment('Add an example data 4')
           ).then(() => {
             console.log('# add data 4')
             //--INSERT INTO test3.object (id, object_type) values (5, 'City');
             DB.query(Q
-              .add_triple('doc:Object', 'object_type', 'scm:Object')
-              .add_triple('doc:Object', 'id', Q.literal(5, 'integer'))
-              .add_triple('doc:Object', 'object_type', Q.literal('City', 'string'))
-              .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+              .add_triple('doc:object6', 'type', 'scm:Object')
+              .add_triple('doc:object6', 'id', Q.literal(5, 'integer'))
+              .add_triple('doc:object6', 'type', Q.literal('City', 'string'))
+              .add_triple('doc:object6', 'completed', Q.literal(true, 'boolean'))
               .comment('Add an example data 5')
             ).then(() => {
               console.log('# add data 5')
               //--INSERT INTO test3.object (id, object_type) values (6, 'Person');
               DB.query(Q
-                .add_triple('doc:Object', 'object_type', 'scm:Object')
-                .add_triple('doc:Object', 'id', Q.literal(6, 'integer'))
-                .add_triple('doc:Object', 'object_type', Q.literal('Person', 'string'))
-                .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+                .add_triple('doc:object7', 'type', 'scm:Object')
+                .add_triple('doc:object7', 'id', Q.literal(6, 'integer'))
+                .add_triple('doc:object7', 'type', Q.literal('Person', 'string'))
+                .add_triple('doc:object7', 'completed', Q.literal(true, 'boolean'))
                 .comment('Add an example data 6')
               ).then(() => {
                 console.log('# add data 6')
                 //--INSERT INTO test3.object (id, object_type) values (7, 'Person');
                 DB.query(Q
-                  .add_triple('doc:Object', 'object_type', 'scm:Object')
-                  .add_triple('doc:Object', 'id', Q.literal(7, 'integer'))
-                  .add_triple('doc:Object', 'object_type', Q.literal('Person', 'string'))
-                  .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+                  .add_triple('doc:object8', 'type', 'scm:Object')
+                  .add_triple('doc:object8', 'id', Q.literal(7, 'integer'))
+                  .add_triple('doc:object8', 'type', Q.literal('Person', 'string'))
+                  .add_triple('doc:object8', 'completed', Q.literal(true, 'boolean'))
                   .comment('Add an example data 7')
                 ).then(() => {
                   console.log('# add data 7')
                   //--INSERT INTO test3.object (id, object_type) values (8, 'Person');
                   DB.query(Q
-                    .add_triple('doc:Object', 'object_type', 'scm:Object')
-                    .add_triple('doc:Object', 'id', Q.literal(8, 'integer'))
-                    .add_triple('doc:Object', 'object_type', Q.literal('Person', 'string'))
-                    .add_triple('doc:Object', 'completed', Q.literal(true, 'boolean'))
+                    .add_triple('doc:object9', 'type', 'scm:Object')
+                    .add_triple('doc:object9', 'id', Q.literal(8, 'integer'))
+                    .add_triple('doc:object9', 'type', Q.literal('Person', 'string'))
+                    .add_triple('doc:object9', 'completed', Q.literal(true, 'boolean'))
                     .comment('Add an example data 8')
                   ).then(() => done()
                   ).catch(error => console.log('data 8 error', error))

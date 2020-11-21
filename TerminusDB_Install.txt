@@ -1,0 +1,114 @@
+https://terminusdb.com/docs/how-tos/installation/#installation
+
+DOCKER
+https://www.docker.com/products/docker-desktop
+
+yum install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum-config-manager --enable docker-ce-nightly
+yum-config-manager --enable docker-ce-test
+yum-config-manager --disable docker-ce-nightly
+yum install docker-ce docker-ce-cli containerd.io
+yum list docker-ce --showduplicates | sort -r
+yum install docker-ce-18.09.1 docker-ce-cli-18.09.1 containerd.io
+systemctl start docker
+docker run hello-world
+
+GIT
+://git-scm.com/downloads
+https://git-scm.com/download/linux
+https://mirrors.edge.kernel.org/pub/software/scm/git/
+mkdir GIT
+cd GIT
+git clone https://github.com/terminusdb/terminusdb-bootstrap
+cd terminusdb-bootstrap
+
+./terminusdb-container run
+mkdir GIT
+cd GIT
+git clone https://github.com/terminusdb/terminusdb-bootstrap
+cd terminusdb-bootstrap
+
+./terminusdb-container run
+./terminusdb-container console
+or
+ http://localhost:6363/
+ https://127.0.0.1:6363/
+
+./terminusdb-container
+./terminusdb-container stop
+
+git clone https://github.com/terminusdb/terminusdb-client-python.git
+
+TerminusDB Client Python:
+https://github.com/terminusdb/terminusdb-client-python
+
+For Python Download
+https://www.python.org/downloads/release/python-3612/
+tar xf Python-3.6.12.tgz
+yum install zlib-devel
+
+./configure
+make
+make test
+sudo make install
+
+cd GIT/terminusdb-client-python
+python3 -m pip install terminusdb-client
+python3 -m pip install git+https://github.com/terminusdb/terminusdb-client-python.git
+
+https://github.com/terminusdb/terminusdb-client-js
+
+https://linuxize.com/post/how-to-install-node-js-on-centos-7/
+curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+yum install nodejs
+npm install --save @terminusdb/terminusdb-client
+
+curl -sL https://unpkg.com/@terminusdb/terminusdb-client/dist/terminusdb-client.min.js
+<script src="https://unpkg.com/@terminusdb/terminusdb-client/dist/terminusdb-client.min.js"></script>
+
+----------------------------------------------------
+
+git clone https://github.com/terminusdb/terminusdb-bootstrap
+git clone https://github.com/terminusdb/terminusdb-client-python.git
+git clone https://github.com/terminusdb/terminusdb-tutorials.git
+git clone https://github.com/terminusdb/terminusdb-client-js.git
+git clone https://github.com/terminusdb/terminusdb-doc.git
+git clone https://github.com/terminusdb/terminusdb-store.git
+git clone https://github.com/terminusdb/terminusdb-server.git
+
+__________________________________________________________________
+
+https://terminusdb.com/docs/how-tos/other-install/#fedora-or-red-hat
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+git clone https://github.com/SWI-Prolog/swipl-devel
+cd swipl-devel
+cp build.tmpl build
+cd swipl-devel
+git submodule update --init
+git remote add myfork git@github.com:orioncri/swipl-devel.git
+
+yum install cmake
+
+____________________________________________________________________
+
+Working JavaScrit Demo
+cd /home/rrivas/GIT/terminusdb-todoapp
+npm install && npm run initdb
+npm run dev
+
+Add http://www.nodeclipse.org/
+from Eclipse Help Market Place
+
+---------------------------------------------------------------------
+
+Shared Folder
+> id
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+uid=1000(rrivas) gid=1000(rrivas) groups=1000(rrivas),10(wheel) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+cd /etc
+vi rc.local 
+add line: sudo mount -t vboxsf -o uid=1000,gid=1000 Share /home/rrivas/Documents/My_Shared_Data
+

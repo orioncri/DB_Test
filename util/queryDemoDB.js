@@ -11,12 +11,22 @@ WOQL.select("v:Start", "v:Start_Label").and(
         WOQL.triple("v:Journey", "start_station", "v:Start")
 )
 
+WOQL.select("v:Id", "v:Object_type").and(
+        WOQL.triple("v:Object", "id", "scm:Object"),
+        WOQL.triple("v:Object", "object_type", "scm:Object")
+)
+
+_________________________________________________________________
+
+// Works
 WOQL.select("v:Id").and(
         WOQL.triple("v:Object", "id", "v:Id")
 )
 
-WOQL.select("v:Id", "v:Object_type").and(
-        WOQL.triple("v:Object", "id", "scm:Object"),
-        WOQL.triple("v:Object", "object_type", "scm:Object")
+// Works
+WOQL.select("v:Completed", "v:Id").and(
+WOQL.select("v:Id", "v:Completed").and(
+        WOQL.triple("v:Object", "completed", "v:Completed"),
+        WOQL.triple("v:Object", "id", "v:Id")
 )
 
