@@ -2,14 +2,14 @@
 const Client = require('@terminusdb/terminusdb-client')
 
 // Instantiate database client
-const DB = new Client.WOQLClient('https://127.0.0.1:6363/',
+const WOQL = new Client.WOQLClient('https://127.0.0.1:6363/',
   { user: 'admin', key: 'root' })
 
 // organization is like user here
-DB.organization('admin')
+WOQL.organization('admin')
 
 // connect
-DB.connect()
+WOQL.connect()
   .then(() => hasDB())
   .catch(error => console.log('error', error))
 
@@ -20,17 +20,17 @@ const Q = Client.WOQL
 const hasDB = () => {
   console.log('# checking db')
   // use system database for this query
-  DB.db('_system')
+  WOQL.db('_system')
   // check if a database with the label MyDemo exists
-  DB.query(Q
-    .triple('v:DB', 'type', 'system:Database')
-    .triple('v:DB', 'label', 'v:Label')
+  WOQL.query(Q
+    .triple('v:WOQL', 'type', 'system:Database')
+    .triple('v:WOQL', 'label', 'v:Label')
     .eq({ '@language': 'en', '@value': 'MyDemo' }, 'v:Label')
   ).then(response => {
     if (response.bindings.length === 0) {
       console.log('# creating db')
       // create the database
-      DB.createDatabase('MyDemo', {
+      WOQL.createDatabase('MyDemo', {
         label: 'MyDemo',
         comment: 'DB for MyDemo backend',
         schema: true
@@ -43,14 +43,14 @@ const hasDB = () => {
   }).catch(error => console.log('error', error))
 }
 
-// check for schema and examples, add if missing
+// check for schema and objects, add if missing
 const hasSchema = () => {
   console.log('# checking schema')
   // set database to use to MyDemo
-  DB.db('MyDemo')
+  WOQL.db('MyDemo')
   // check if a class called 'scm:Object' exists
   // and is a sub of class 'system:Document'
-  DB.query(Q
+  WOQL.query(Q
     .quad('v:Class', 'type', 'owl:Class', 'schema')
     .sub('system:Document', 'v:Class')
     .eq('v:Class', 'scm:Object')
@@ -59,7 +59,7 @@ const hasSchema = () => {
       if (response.bindings.length === 0) {
         console.log('# creating schema')
         // add the schema for class 'scm:Object'
-        DB.query(Q
+        WOQL.query(Q
           .doctype('Object')
           .label('Object_Type')
           .description('Currently either City or Person')
@@ -67,7 +67,7 @@ const hasSchema = () => {
           .property('object_type', 'xsd:string').cardinality(1)
           .property('completed', 'xsd:boolean').cardinality(1)
         ).then(response => {
-// RER          addExamples()
+          addObjectData()
         }).catch(error => console.log('error', error))
       } else {
         console.log('# has schema')
@@ -77,99 +77,99 @@ const hasSchema = () => {
     .catch(error => console.log('error', error))
 }
 
-// Create some example Object's
-const addExamples = () => {
-  console.log('# add data 0')
+// Create some Object Object's
+const addObjectData = () => {
+  console.log('# add object1 data 0')
 
   //--INSERT INTO test3.object (id, object type) values (0, null);
-  DB.query(Q
+  WOQL.query(Q
     .add_triple('doc:object1', 'type', 'scm:Object')
     .add_triple('doc:object1', 'id', Q.literal(0, 'integer'))
-    .add_triple('doc:object1', 'type', Q.literal(null, 'string'))
+// RER    .add_triple('doc:object1', 'type', Q.literal(null, 'string'))
     .add_triple('doc:object1', 'completed', Q.literal(true, 'boolean'))
-    .comment('Add an example data 0')
+    .comment('Add an Object data 0')
   ).then(() => {
-    console.log('# add data 0')
+    console.log('# add object2 data 1')
     //--INSERT INTO test3.object (id, object_type) values (1, 'City');
-    DB.query(Q
+    WOQL.query(Q
       .add_triple('doc:object2', 'type', 'scm:Object')
       .add_triple('doc:object2', 'id', Q.literal(1, 'integer'))
-      .add_triple('doc:object2', 'type', Q.literal('City', 'string'))
+// RER      .add_triple('doc:object2', 'type', Q.literal('City', 'string'))
       .add_triple('doc:object2', 'completed', Q.literal(true, 'boolean'))
-      .comment('Add an example data 1')
+      .comment('Add an Object data 1')
     ).then(() => {
-      console.log('# add data 1')
+      console.log('# add object3 data 2')
       //--INSERT INTO test3.object (id, object_type) values (2, 'Person');
-      DB.query(Q
+      WOQL.query(Q
         .add_triple('doc:object3', 'type', 'scm:Object')
         .add_triple('doc:object3', 'id', Q.literal(2, 'integer'))
-        .add_triple('doc:object3', 'type', Q.literal('Person', 'string'))
+// RER        .add_triple('doc:object3', 'type', Q.literal('Person', 'string'))
         .add_triple('doc:object3', 'completed', Q.literal(true, 'boolean'))
-        .comment('Add an example data 2')
+        .comment('Add an Object data 2')
       ).then(() => {
-        console.log('# add data 2')
+        console.log('# add object4 data 3')
         //--INSERT INTO test3.object (id, object_type) values (3, 'City');
-        DB.query(Q
+        WOQL.query(Q
           .add_triple('doc:object4', 'type', 'scm:Object')
           .add_triple('doc:object4', 'id', Q.literal(3, 'integer'))
-          .add_triple('doc:object4', 'type', Q.literal('City', 'string'))
+// RER          .add_triple('doc:object4', 'type', Q.literal('City', 'string'))
           .add_triple('doc:object4', 'completed', Q.literal(true, 'boolean'))
-          .comment('Add an example data 3')
+          .comment('Add an Object data 3')
         ).then(() => {
-          console.log('# add data 3')
+          console.log('# add object5 data 4')
           //--INSERT INTO test3.object (id, object_type) values (4, 'Person');
-          DB.query(Q
+          WOQL.query(Q
             .add_triple('doc:object5', 'type', 'scm:Object')
             .add_triple('doc:object5', 'id', Q.literal(4, 'integer'))
-            .add_triple('doc:object5', 'type', Q.literal('Person', 'string'))
+// RER            .add_triple('doc:object5', 'type', Q.literal('Person', 'string'))
             .add_triple('doc:object5', 'completed', Q.literal(true, 'boolean'))
-            .comment('Add an example data 4')
+            .comment('Add an Object data 4')
           ).then(() => {
-            console.log('# add data 4')
+            console.log('# add object6 data 5')
             //--INSERT INTO test3.object (id, object_type) values (5, 'City');
-            DB.query(Q
+            WOQL.query(Q
               .add_triple('doc:object6', 'type', 'scm:Object')
               .add_triple('doc:object6', 'id', Q.literal(5, 'integer'))
-              .add_triple('doc:object6', 'type', Q.literal('City', 'string'))
+// RER              .add_triple('doc:object6', 'type', Q.literal('City', 'string'))
               .add_triple('doc:object6', 'completed', Q.literal(true, 'boolean'))
-              .comment('Add an example data 5')
+              .comment('Add an Object data 5')
             ).then(() => {
-              console.log('# add data 5')
+              console.log('# add object7 data 6')
               //--INSERT INTO test3.object (id, object_type) values (6, 'Person');
-              DB.query(Q
+              WOQL.query(Q
                 .add_triple('doc:object7', 'type', 'scm:Object')
                 .add_triple('doc:object7', 'id', Q.literal(6, 'integer'))
-                .add_triple('doc:object7', 'type', Q.literal('Person', 'string'))
+// RER                .add_triple('doc:object7', 'type', Q.literal('Person', 'string'))
                 .add_triple('doc:object7', 'completed', Q.literal(true, 'boolean'))
-                .comment('Add an example data 6')
+                .comment('Add an Object data 6')
               ).then(() => {
-                console.log('# add data 6')
+                console.log('# add object8 data 7')
                 //--INSERT INTO test3.object (id, object_type) values (7, 'Person');
-                DB.query(Q
+                WOQL.query(Q
                   .add_triple('doc:object8', 'type', 'scm:Object')
                   .add_triple('doc:object8', 'id', Q.literal(7, 'integer'))
-                  .add_triple('doc:object8', 'type', Q.literal('Person', 'string'))
+// RER                  .add_triple('doc:object8', 'type', Q.literal('Person', 'string'))
                   .add_triple('doc:object8', 'completed', Q.literal(true, 'boolean'))
-                  .comment('Add an example data 7')
+                  .comment('Add an Object data 7')
                 ).then(() => {
-                  console.log('# add data 7')
+                  console.log('# add object9 data 8')
                   //--INSERT INTO test3.object (id, object_type) values (8, 'Person');
-                  DB.query(Q
+                  WOQL.query(Q
                     .add_triple('doc:object9', 'type', 'scm:Object')
                     .add_triple('doc:object9', 'id', Q.literal(8, 'integer'))
-                    .add_triple('doc:object9', 'type', Q.literal('Person', 'string'))
+// RER                    .add_triple('doc:object9', 'type', Q.literal('Person', 'string'))
                     .add_triple('doc:object9', 'completed', Q.literal(true, 'boolean'))
-                    .comment('Add an example data 8')
+                    .comment('Add an Object data 8')
                   ).then(() => done()
-                  ).catch(error => console.log('data 8 error', error))
-                }).catch(error => console.log('data 7 error', error))
-              }).catch(error => console.log('data 6 error', error))
-            }).catch(error => console.log('data 5 error', error))
-          }).catch(error => console.log('data 4 error', error))
-        }).catch(error => console.log('data 3 error', error))
-      }).catch(error => console.log('data 2 error', error))
-    }).catch(error => console.log('data 1 error', error))
-  }).catch(error => console.log('data 0 error', error))
+                  ).catch(error => console.log('Object Data 8 error', error))
+                }).catch(error => console.log('Object Data 7 error', error))
+              }).catch(error => console.log('Object Data 6 error', error))
+            }).catch(error => console.log('Object Data 5 error', error))
+          }).catch(error => console.log('Object Data 4 error', error))
+        }).catch(error => console.log('Object Data 3 error', error))
+      }).catch(error => console.log('Object Data 2 error', error))
+    }).catch(error => console.log('Object Data 1 error', error))
+  }).catch(error => console.log('Object Data 0 error', error))
 }
 
 const done = () => {

@@ -18,7 +18,7 @@ const Q = Client.WOQL
 
 // check for DB, create if missing
 const hasDB = () => {
-  console.log('# checking db')
+  console.log('# hasDB checking db')
   // use system database for this query
   WOQL.db('_system')
   // check if a database with the label MyDemo1 exists
@@ -28,7 +28,7 @@ const hasDB = () => {
     .eq({ '@language': 'en', '@value': 'MyDemo1' }, 'v:Label')
   ).then(response => {
     if (response.bindings.length === 0) {
-      console.log('# creating db')
+      console.log('# hasDB creating db')
       // create the database
       WOQL.createDatabase('MyDemo1', {
         label: 'MyDemo1',
@@ -37,19 +37,15 @@ const hasDB = () => {
       }, 'admin')
         .then(() => hasSchema())
     } else {
-      console.log('# has db')
+      console.log('# hasDB Database Already Created')
       hasSchema()
-      console.log('# add Object Data to schema')
-      addObjectData()
-// RER      console.log('# add City Data to schema')
-// RER      addCityData()
     }
   }).catch(error => console.log('error', error))
 }
 
 // check for schema and examples, add if missing
 const hasSchema = () => {
-  console.log('# checking schema')
+  console.log('# hasSchema checking schema')
   // set database to use to MyDemo1
   WOQL.db('MyDemo1')
   // check if a class called 'scm:Object' exists
@@ -71,19 +67,64 @@ const hasSchema = () => {
           .property('completed', 'xsd:boolean').label("Completed").cardinality(1)
           )
          .then(response => {
+// RER             console.log('# add Object Data to schema')
+// RER             addObjectData()
           // add the schema for class 'scm:City'
           console.log('# creating City schema')
           WOQL.query(Q
         	.doctype("City").label("City")
             .description('An Object of type City')
-            .property("city_object", "Object").label("City Object")
+// RER            .property("city_object", "scm:Object").label("City Object")
         	.property("id", "xsd:integer").label("City Id").cardinality(1)
             .property("object_id", "xsd:integer").label("Object Id").cardinality(1)
-          ).then(response => {
-            }).catch(error => console.log('add City Data error', error))
+            ).then(response => {
+// RER              console.log('# add City Data to schema')
+// RER              addCityData()
+           	 // add the schema for class 'scm:Person'
+              console.log('# creating Person schema')
+              WOQL.query(Q
+                .doctype("Person").label("Person")
+            	.description('An Object of type Person')
+                .property("person_object", "Object").label("Person Object")
+                .property("id", "xsd:integer").label("Person Id").cardinality(1)
+                .property("object_id", "xsd:integer").label("Object Id").cardinality(1)
+              ).then(response => {
+                // add the schema for class 'scm:City_Content'
+                console.log('# creating City Content schema')
+                WOQL.query(Q
+                  .doctype("City_Content").label("City_Content")
+                  .description('An Object of type City Content')
+                  .property("id", "xsd:integer").label("City Content Id").cardinality(1)
+                  .property("content_id", "xsd:integer").label("Content Id").cardinality(1)
+                  .property("city_id", "xsd:integer").label("City Id").cardinality(1)
+                  .property("name", "string").label("City Name")
+                ).then(response => {
+                  // add the schema for class 'scm:Person_Content'
+                  console.log('# creating Person Content schema')
+                  WOQL.query(Q
+                	.doctype("Person_Content").label("Person Content")
+                	.description('An Object of type Person Content')
+                	.property("id", "xsd:integer").label("Person Content Id").cardinality(1)
+                	.property("content_id", "xsd:integer").label("Content Id").cardinality(1)
+                	.property("person_id", "xsd:integer").label("Person Id").cardinality(1)
+                	.property("first_name", "string").label("First Name")
+                	.property("last_name", "string").label("Last Name")
+                	.property("age", "xsd:integer").label("Person Age").cardinality(1)
+                	.property("city_id", "xsd:integer").label("City Id").cardinality(1)
+                  ).then(() => {
+                      console.log('# Schema Created')
+                	  done()
+                  }).catch(error => console.log('add Person Content Data error', error))
+               }).catch(error => console.log('add City Content Data error', error))
+            }).catch(error => console.log('add Person Data error', error))
+          }).catch(error => console.log('add City Data error', error))
         }).catch(error => console.log('add Oject Data error', error))
       } else {
-        console.log('# has schema')
+        console.log('# hasSchema Schema already Created')
+// RER        console.log('# add Object Data to schema')
+// RER        addObjectData()
+        console.log('# add City Data to schema')
+        addCityData()
         done()
       }
     })
@@ -185,6 +226,34 @@ const addObjectData = () => {
   }).catch(error => console.log('Object Data 0 error', error))
 }
 
+//Create some City Object's
+const addCityData = () => {
+  console.log('# add city1 data 0')
+
+  WOQL.query(Q
+// RER    .add_triple('doc:city1', 'city_object', 'scm:City')
+    .add_triple('doc:city1', 'id', Q.literal(1, 'integer'))
+    .add_triple('doc:city1', 'object_id', Q.literal(1, 'integer'))
+    .comment('Add an City data 0')
+  ).then(() => {
+    console.log('# add city2 data 1')
+    WOQL.query(Q
+      .add_triple('doc:city2', 'city_object', 'scm:City')
+      .add_triple('doc:city2', 'id', Q.literal(2, 'integer'))
+      .add_triple('doc:city2', 'object_id', Q.literal(3, 'integer'))
+      .comment('Add an City data 1')
+    ).then(() => {
+      console.log('# add city3 data 2')
+      WOQL.query(Q
+        .add_triple('doc:city3', 'city_object', 'scm:City')
+        .add_triple('doc:city3', 'id', Q.literal(3, 'integer'))
+        .add_triple('doc:city3', 'object_id', Q.literal(5, 'integer'))
+        .comment('Add an City data 2')
+      ).then(() => {
+      }).catch(error => console.log('City Data 2 error', error))
+    }).catch(error => console.log('City Data 1 error', error))
+  }).catch(error => console.log('City Data 0 error', error))
+}
 
 const done = () => {
   console.log('# done')

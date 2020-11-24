@@ -24,7 +24,7 @@ WOQL.select("v:Id").and(
 )
 
 // Works
-WOQL.select("v:Completed", "v:Id").and(
+// WOQL.select("v:Completed", "v:Id").and(
 WOQL.select("v:Id", "v:Completed").and(
         WOQL.triple("v:Object", "completed", "v:Completed"),
         WOQL.triple("v:Object", "id", "v:Id")
