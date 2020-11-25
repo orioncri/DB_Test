@@ -39,6 +39,10 @@ const hasDB = () => {
     } else {
       console.log('# hasDB Database Already Created')
       hasSchema()
+      console.log('# add Object Data to schema')
+      addObjectData()
+// RER      console.log('# add City Data to schema')
+// RER      addCityData()
     }
   }).catch(error => console.log('error', error))
 }
@@ -67,14 +71,14 @@ const hasSchema = () => {
           .property('completed', 'xsd:boolean').label("Completed").cardinality(1)
           )
          .then(response => {
-// RER             console.log('# add Object Data to schema')
-// RER             addObjectData()
-          // add the schema for class 'scm:City'
+          console.log('# add Object Data to schema')
+          addObjectData()
+/*          // add the schema for class 'scm:City'
           console.log('# creating City schema')
           WOQL.query(Q
         	.doctype("City").label("City")
             .description('An Object of type City')
-// RER            .property("city_object", "scm:Object").label("City Object")
+            .property("city_object", "scm:City").label("City Object")
         	.property("id", "xsd:integer").label("City Id").cardinality(1)
             .property("object_id", "xsd:integer").label("Object Id").cardinality(1)
             ).then(response => {
@@ -85,7 +89,7 @@ const hasSchema = () => {
               WOQL.query(Q
                 .doctype("Person").label("Person")
             	.description('An Object of type Person')
-                .property("person_object", "Object").label("Person Object")
+                .property("person_object", "Person").label("Person Object")
                 .property("id", "xsd:integer").label("Person Id").cardinality(1)
                 .property("object_id", "xsd:integer").label("Object Id").cardinality(1)
               ).then(response => {
@@ -110,7 +114,6 @@ const hasSchema = () => {
                 	.property("first_name", "string").label("First Name")
                 	.property("last_name", "string").label("Last Name")
                 	.property("age", "xsd:integer").label("Person Age").cardinality(1)
-                	.property("city_id", "xsd:integer").label("City Id").cardinality(1)
                   ).then(() => {
                       console.log('# Schema Created')
                 	  done()
@@ -118,13 +121,11 @@ const hasSchema = () => {
                }).catch(error => console.log('add City Content Data error', error))
             }).catch(error => console.log('add Person Data error', error))
           }).catch(error => console.log('add City Data error', error))
-        }).catch(error => console.log('add Oject Data error', error))
+*/        }).catch(error => console.log('add Oject Data error', error))
       } else {
         console.log('# hasSchema Schema already Created')
-// RER        console.log('# add Object Data to schema')
-// RER        addObjectData()
-        console.log('# add City Data to schema')
-        addCityData()
+// RER        console.log('# add City Data to schema')
+// RER        addCityData()
         done()
       }
     })
@@ -138,81 +139,81 @@ const addObjectData = () => {
   //--INSERT INTO test3.object (id, object type) values (0, null);
   WOQL.query(Q
     .add_triple('doc:object1', 'type', 'scm:Object')
-    .add_triple('doc:object1', 'id', Q.literal(0, 'integer'))
+    .add_triple('doc:object1', 'id', Q.literal(0, 'xsd:integer'))
 // RER    .add_triple('doc:object1', 'type', Q.literal(null, 'string'))
-    .add_triple('doc:object1', 'completed', Q.literal(true, 'boolean'))
+    .add_triple('doc:object1', 'completed', Q.literal(true, 'xsd:boolean'))
     .comment('Add an Object data 0')
   ).then(() => {
     console.log('# add object2 data 1')
     //--INSERT INTO test3.object (id, object_type) values (1, 'City');
     WOQL.query(Q
-      .add_triple('doc:object2', 'type', 'scm:Object')
-      .add_triple('doc:object2', 'id', Q.literal(1, 'integer'))
+// RER      .add_triple('doc:object2', 'type', 'scm:Object')
+      .add_triple('doc:object2', 'id', Q.literal(1, 'xsd:integer'))
 // RER      .add_triple('doc:object2', 'type', Q.literal('City', 'string'))
-      .add_triple('doc:object2', 'completed', Q.literal(true, 'boolean'))
+      .add_triple('doc:object2', 'completed', Q.literal(true, 'xsd:boolean'))
       .comment('Add an Object data 1')
     ).then(() => {
       console.log('# add object3 data 2')
       //--INSERT INTO test3.object (id, object_type) values (2, 'Person');
       WOQL.query(Q
-        .add_triple('doc:object3', 'type', 'scm:Object')
-        .add_triple('doc:object3', 'id', Q.literal(2, 'integer'))
+// RER        .add_triple('doc:object3', 'type', 'scm:Object')
+        .add_triple('doc:object3', 'id', Q.literal(2, 'xsd:integer'))
 // RER        .add_triple('doc:object3', 'type', Q.literal('Person', 'string'))
-        .add_triple('doc:object3', 'completed', Q.literal(true, 'boolean'))
+        .add_triple('doc:object3', 'completed', Q.literal(true, 'xsd:boolean'))
         .comment('Add an Object data 2')
       ).then(() => {
         console.log('# add object4 data 3')
         //--INSERT INTO test3.object (id, object_type) values (3, 'City');
         WOQL.query(Q
-          .add_triple('doc:object4', 'type', 'scm:Object')
-          .add_triple('doc:object4', 'id', Q.literal(3, 'integer'))
+// RER          .add_triple('doc:object4', 'type', 'scm:Object')
+          .add_triple('doc:object4', 'id', Q.literal(3, 'xsd:integer'))
 // RER          .add_triple('doc:object4', 'type', Q.literal('City', 'string'))
-          .add_triple('doc:object4', 'completed', Q.literal(true, 'boolean'))
+          .add_triple('doc:object4', 'completed', Q.literal(true, 'xsd:boolean'))
           .comment('Add an Object data 3')
         ).then(() => {
           console.log('# add object5 data 4')
           //--INSERT INTO test3.object (id, object_type) values (4, 'Person');
           WOQL.query(Q
-            .add_triple('doc:object5', 'type', 'scm:Object')
-            .add_triple('doc:object5', 'id', Q.literal(4, 'integer'))
+// RER            .add_triple('doc:object5', 'type', 'scm:Object')
+            .add_triple('doc:object5', 'id', Q.literal(4, 'xsd:integer'))
 // RER            .add_triple('doc:object5', 'type', Q.literal('Person', 'string'))
-            .add_triple('doc:object5', 'completed', Q.literal(true, 'boolean'))
+            .add_triple('doc:object5', 'completed', Q.literal(true, 'xsd:boolean'))
             .comment('Add an Object data 4')
           ).then(() => {
             console.log('# add object6 data 5')
             //--INSERT INTO test3.object (id, object_type) values (5, 'City');
             WOQL.query(Q
-              .add_triple('doc:object6', 'type', 'scm:Object')
-              .add_triple('doc:object6', 'id', Q.literal(5, 'integer'))
+// RER              .add_triple('doc:object6', 'type', 'scm:Object')
+              .add_triple('doc:object6', 'id', Q.literal(5, 'xsd:integer'))
 // RER              .add_triple('doc:object6', 'type', Q.literal('City', 'string'))
-              .add_triple('doc:object6', 'completed', Q.literal(true, 'boolean'))
+              .add_triple('doc:object6', 'completed', Q.literal(true, 'xsd:boolean'))
               .comment('Add an Object data 5')
             ).then(() => {
               console.log('# add object7 data 6')
               //--INSERT INTO test3.object (id, object_type) values (6, 'Person');
               WOQL.query(Q
-                .add_triple('doc:object7', 'type', 'scm:Object')
-                .add_triple('doc:object7', 'id', Q.literal(6, 'integer'))
+// RER                .add_triple('doc:object7', 'type', 'scm:Object')
+                .add_triple('doc:object7', 'id', Q.literal(6, 'xsd:integer'))
 // RER                .add_triple('doc:object7', 'type', Q.literal('Person', 'string'))
-                .add_triple('doc:object7', 'completed', Q.literal(true, 'boolean'))
+                .add_triple('doc:object7', 'completed', Q.literal(true, 'xsd:boolean'))
                 .comment('Add an Object data 6')
               ).then(() => {
                 console.log('# add object8 data 7')
                 //--INSERT INTO test3.object (id, object_type) values (7, 'Person');
                 WOQL.query(Q
-                  .add_triple('doc:object8', 'type', 'scm:Object')
-                  .add_triple('doc:object8', 'id', Q.literal(7, 'integer'))
+// RER                  .add_triple('doc:object8', 'type', 'scm:Object')
+                  .add_triple('doc:object8', 'id', Q.literal(7, 'xsd:integer'))
 // RER                  .add_triple('doc:object8', 'type', Q.literal('Person', 'string'))
-                  .add_triple('doc:object8', 'completed', Q.literal(true, 'boolean'))
+                  .add_triple('doc:object8', 'completed', Q.literal(true, 'xsd:boolean'))
                   .comment('Add an Object data 7')
                 ).then(() => {
                   console.log('# add object9 data 8')
                   //--INSERT INTO test3.object (id, object_type) values (8, 'Person');
                   WOQL.query(Q
-                    .add_triple('doc:object9', 'type', 'scm:Object')
-                    .add_triple('doc:object9', 'id', Q.literal(8, 'integer'))
+// RER                    .add_triple('doc:object9', 'type', 'scm:Object')
+                    .add_triple('doc:object9', 'id', Q.literal(8, 'xsd:integer'))
 // RER                    .add_triple('doc:object9', 'type', Q.literal('Person', 'string'))
-                    .add_triple('doc:object9', 'completed', Q.literal(true, 'boolean'))
+                    .add_triple('doc:object9', 'completed', Q.literal(true, 'xsd:boolean'))
                     .comment('Add an Object data 8')
                   ).then(() => done()
                   ).catch(error => console.log('Object Data 8 error', error))
@@ -232,22 +233,22 @@ const addCityData = () => {
 
   WOQL.query(Q
 // RER    .add_triple('doc:city1', 'city_object', 'scm:City')
-    .add_triple('doc:city1', 'id', Q.literal(1, 'integer'))
-    .add_triple('doc:city1', 'object_id', Q.literal(1, 'integer'))
+    .add_triple('doc:city1', 'id', Q.literal(1, 'xsd:integer'))
+    .add_triple('doc:city1', 'object_id', Q.literal(1, 'xsd:integer'))
     .comment('Add an City data 0')
   ).then(() => {
     console.log('# add city2 data 1')
     WOQL.query(Q
-      .add_triple('doc:city2', 'city_object', 'scm:City')
-      .add_triple('doc:city2', 'id', Q.literal(2, 'integer'))
-      .add_triple('doc:city2', 'object_id', Q.literal(3, 'integer'))
+// RER      .add_triple('doc:city2', 'city_object', 'scm:City')
+      .add_triple('doc:city2', 'id', Q.literal(2, 'xsd:integer'))
+      .add_triple('doc:city2', 'object_id', Q.literal(3, 'xsd:integer'))
       .comment('Add an City data 1')
     ).then(() => {
       console.log('# add city3 data 2')
       WOQL.query(Q
-        .add_triple('doc:city3', 'city_object', 'scm:City')
-        .add_triple('doc:city3', 'id', Q.literal(3, 'integer'))
-        .add_triple('doc:city3', 'object_id', Q.literal(5, 'integer'))
+// RER        .add_triple('doc:city3', 'city_object', 'scm:City')
+        .add_triple('doc:city3', 'id', Q.literal(3, 'xsd:integer'))
+        .add_triple('doc:city3', 'object_id', Q.literal(5, 'xsd:integer'))
         .comment('Add an City data 2')
       ).then(() => {
       }).catch(error => console.log('City Data 2 error', error))

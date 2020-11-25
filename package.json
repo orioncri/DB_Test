@@ -9,7 +9,7 @@
     "mkdocs:api": "jsdoc2md --partial scope.hbs member-index.hbs --files src/terminusdb.js > docs/api/todomvcdb.js.md",
     "mkdocs": "cp README.md docs/ && npm run mkdocs:api && npm run mkdocs:src",
     "docs": "docsify serve docs",
-    "initializeDatabase": "node util/initializeDatabase.js"
+    "initializeDatabase": "node util/initdb.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^14.0.0",
