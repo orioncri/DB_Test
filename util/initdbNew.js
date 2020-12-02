@@ -18,7 +18,7 @@ const Q = Client.WOQL
 
 // check for DB, create if missing
 const hasDB = () => {
-	console.log('# checking db')
+	console.log('# Checking Database')
 	// use system database for this query
 	WOQL.db('_system')
 	// check if a database with the label MyDemo1 exists
@@ -28,7 +28,7 @@ const hasDB = () => {
 			.eq({ '@language': 'en', '@value': 'MyDemo1' }, 'v:Label')
 	).then(response => {
 		if (response.bindings.length === 0) {
-			console.log('# creating db')
+			console.log('# Creating Database')
 			// create the database
 			WOQL.createDatabase('MyDemo1', {
 				label: 'MyDemo1',
@@ -39,25 +39,19 @@ const hasDB = () => {
 				hasCRTSchema()
 			})
 		} else {
-			console.log('# has db')
-// RER hasCRTSchema()
-// RER hasObjectSchema()
+			console.log('# has Database')
 			addObjectData()
-// RER hasCitySchema()
 			addCityData()
-// RER hasPersonSchema()
 			addPersonData()
-// RER hasCityContentSchema()
 			addCityContentData()
-// RER hasPersonContentSchema()
 			addPersonContentData()
 		}
 	}).catch(error => console.log('error', error))
 }
 
-// check for Object schema, add if missing
-const hasObjectSchema = () => {
-	console.log('# checking Object schema')
+// check for Content Schema, add if missing
+const hasCRTSchema = () => {
+	console.log('# Checking Object Schema')
 	// set database to use to MyDemo1
 	WOQL.db('MyDemo1')
 	// check if a class called 'scm:Object' exists
@@ -69,338 +63,46 @@ const hasObjectSchema = () => {
 	)
 	.then(response => {
 		if (response.bindings.length === 0) {
-			console.log('# creating Object schema')
-			// add the schema for class 'scm:Object'
+			console.log('# Creating Object Schema')
+			// add the Schema for class 'scm:Object'
 			WOQL.query(Q
 					.doctype('Object').label('Object')
 					.description('An Object is either a City, Person or Null')
-					.property('id', 'xsd:integer').cardinality(1)
-					.property('completed', 'xsd:boolean').cardinality(1)
+					.property('id', 'xsd:integer').label("Id").cardinality(1)
+					.property('completed', 'xsd:boolean').label("Completed").cardinality(1)
 			).then(response => {
-				// add the schema for class 'scm:City'
-				/*
-				 * console.log('# creating City schema') WOQL.query(Q
-				 * .doctype("City").label("City") .description('An Object of
-				 * type City') .property("id", "xsd:integer").label("City
-				 * Id").cardinality(1) .property("object_id",
-				 * "xsd:integer").label("Object Id").cardinality(1)
-				 * ).then(response => { // add the schema for class 'scm:Person'
-				 * console.log('# creating Person schema') WOQL.query(Q
-				 * .doctype("Person").label("Person") .description('An Object of
-				 * type Person') .property("person_object",
-				 * "Person").label("Person Object") .property("id",
-				 * "xsd:integer").label("Person Id").cardinality(1)
-				 * .property("object_id", "xsd:integer").label("Object
-				 * Id").cardinality(1) ).then(response => { // add the schema
-				 * for class 'scm:CityContent' console.log('# creating City
-				 * Content schema') WOQL.query(Q
-				 * .doctype("CityContent").label("City Content")
-				 * .description('An Object of type City Content')
-				 * .property("id", "xsd:integer").label("City Content
-				 * Id").cardinality(1) .property("content_id",
-				 * "xsd:integer").label("Content Id").cardinality(1)
-				 * .property("city_id", "xsd:integer").label("City
-				 * Id").cardinality(1) .property("name",
-				 * "xsd:string").label("City Name") ).then(response => { // add
-				 * the schema for class 'scm:PersonContent' console.log('#
-				 * creating Person Content schema') WOQL.query(Q
-				 * .doctype("PersonContent").label("Person Content")
-				 * .description('An Object of type Person Content')
-				 * .property("id", "xsd:integer").label("Person Content
-				 * Id").cardinality(1) .property("content_id",
-				 * "xsd:integer").label("Content Id").cardinality(1)
-				 * .property("person_id", "xsd:integer").label("Person
-				 * Id").cardinality(1) .property("first_name",
-				 * "xsd:string").label("First Name") .property("last_name",
-				 * "xsd:string").label("Last Name") .property("age",
-				 * "xsd:integer").label("Person Age").cardinality(1)
-				 * .property("city_id", "xsd:integer").label("City
-				 * Id").cardinality(1) ).then(() => { console.log('# Schema
-				 * Created') done() }).catch(error => console.log('add Person
-				 * Content Data error', error)) }).catch(error =>
-				 * console.log('add City Content Data error', error))
-				 * }).catch(error => console.log('add Person Data error',
-				 * error)) }).catch(error => console.log('add City Data error',
-				 * error))
-				 */        }).catch(error => console.log('add Object Data error', error))
-		} else {
-			console.log('# Object schema already created')
-			done()
-		}
-	})
-	.catch(error => console.log('error', error))
-}
-
-// check for City schema, add if missing
-const hasCitySchema = () => {
-	console.log('# checking City schema')
-	// set database to use to MyDemo1
-	WOQL.db('MyDemo1')
-	// check if a class called 'scm:Object' exists
-	// and is a sub of class 'system:Document'
-	WOQL.query(Q
-			.quad('v:Class', 'type', 'owl:Class', 'schema')
-			.sub('scm:Object', 'v:Class')
-			.eq('v:Class', 'scm:City')
-	)
-	.then(response => {
-		if (response.bindings.length === 0) {
-			// add the schema for class 'scm:City'
-			console.log('# creating City schema')
-			WOQL.query(Q
-					.doctype("City").label("City").parent('Object')
-					.description('An Object of type City')
-					.property("id", "xsd:integer").label("City Id").cardinality(1)
-					.property("object_id", "xsd:integer").label("Object Id").cardinality(1)
-			).then(response => {
-				/*
-				 * // add the schema for class 'scm:Person' console.log('#
-				 * creating Person schema') WOQL.query(Q
-				 * .doctype("Person").label("Person") .description('An Object of
-				 * type Person') .property("person_object",
-				 * "Person").label("Person Object") .property("id",
-				 * "xsd:integer").label("Person Id").cardinality(1)
-				 * .property("object_id", "xsd:integer").label("Object
-				 * Id").cardinality(1) ).then(response => { // add the schema
-				 * for class 'scm:CityContent' console.log('# creating City
-				 * Content schema') WOQL.query(Q
-				 * .doctype("CityContent").label("City Content")
-				 * .description('An Object of type City Content')
-				 * .property("id", "xsd:integer").label("City Content
-				 * Id").cardinality(1) .property("content_id",
-				 * "xsd:integer").label("Content Id").cardinality(1)
-				 * .property("city_id", "xsd:integer").label("City
-				 * Id").cardinality(1) .property("name",
-				 * "xsd:string").label("City Name") ).then(response => { // add
-				 * the schema for class 'scm:PersonContent' console.log('#
-				 * creating Person Content schema') WOQL.query(Q
-				 * .doctype("PersonContent").label("Person Content")
-				 * .description('An Object of type Person Content')
-				 * .property("id", "xsd:integer").label("Person Content
-				 * Id").cardinality(1) .property("content_id",
-				 * "xsd:integer").label("Content Id").cardinality(1)
-				 * .property("person_id", "xsd:integer").label("Person
-				 * Id").cardinality(1) .property("first_name",
-				 * "xsd:string").label("First Name") .property("last_name",
-				 * "xsd:string").label("Last Name") .property("age",
-				 * "xsd:integer").label("Person Age").cardinality(1) ).then(() => {
-				 * console.log('# Schema Created') done() }).catch(error =>
-				 * console.log('add Person Content Data error', error))
-				 * }).catch(error => console.log('add City Content Data error',
-				 * error)) }).catch(error => console.log('add Person Data
-				 * error', error))
-				 */            }).catch(error => console.log('add City Data error', error))
-		} else {
-			console.log('# Datbase City schema already created')
-			done()
-		}
-	})
-	.catch(error => console.log('error', error))
-}
-
-// check for Person schema, add if missing
-const hasPersonSchema = () => {
-	console.log('# checking Person schema')
-	// set database to use to MyDemo1
-	WOQL.db('MyDemo1')
-	// check if a class called 'scm:Object' exists
-	// and is a sub of class 'system:Document'
-	WOQL.query(Q
-			.quad('v:Class', 'type', 'owl:Class', 'schema')
-			.sub('system:Document', 'v:Class')
-			.eq('v:Class', 'scm:Person')
-	)
-	.then(response => {
-		if (response.bindings.length === 0) {
-			// add the schema for class 'scm:Person'
-			console.log('# creating Person schema')
-			WOQL.query(Q
-					.doctype("Person").label("Person")
-					.description('An Object of type Person')
-					.property("person_object", "Person").label("Person Object")
-					.property("id", "xsd:integer").label("Person Id").cardinality(1)
-					.property("object_id", "xsd:integer").label("Object Id").cardinality(1)
-			).then(response => {
-				/*
-				 * // add the schema for class 'scm:CityContent' console.log('#
-				 * creating City Content schema') WOQL.query(Q
-				 * .doctype("CityContent").label("City Content")
-				 * .description('An Object of type City Content')
-				 * .property("id", "xsd:integer").label("City Content
-				 * Id").cardinality(1) .property("content_id",
-				 * "xsd:integer").label("Content Id").cardinality(1)
-				 * .property("city_id", "xsd:integer").label("City
-				 * Id").cardinality(1) .property("name",
-				 * "xsd:string").label("City Name") ).then(response => { // add
-				 * the schema for class 'scm:PersonContent' console.log('#
-				 * creating Person Content schema') WOQL.query(Q
-				 * .doctype("PersonContent").label("Person Content")
-				 * .description('An Object of type Person Content')
-				 * .property("id", "xsd:integer").label("Person Content
-				 * Id").cardinality(1) .property("content_id",
-				 * "xsd:integer").label("Content Id").cardinality(1)
-				 * .property("person_id", "xsd:integer").label("Person
-				 * Id").cardinality(1) .property("first_name",
-				 * "xsd:string").label("First Name") .property("last_name",
-				 * "xsd:string").label("Last Name") .property("age",
-				 * "xsd:integer").label("Person Age").cardinality(1) ).then(() => {
-				 * console.log('# Schema Created') done() }).catch(error =>
-				 * console.log('add Person Content Data error', error))
-				 * }).catch(error => console.log('add City Content Data error',
-				 * error))
-				 */              }).catch(error => console.log('add Person Data error', error))
-		} else {
-			console.log('# Datbase Person schema already created')
-			done()
-		}
-	})
-	.catch(error => console.log('error', error))
-}
-
-// check for CityContent schema, add if missing
-const hasCityContentSchema = () => {
-	console.log('# checking CityContent schema')
-	// set database to use to MyDemo1
-	WOQL.db('MyDemo1')
-	// check if a class called 'scm:Object' exists
-	// and is a sub of class 'system:Document'
-	WOQL.query(Q
-			.quad('v:Class', 'type', 'owl:Class', 'schema')
-			.sub('system:Document', 'v:Class')
-			.eq('v:Class', 'scm:CityContent')
-	)
-	.then(response => {
-		if (response.bindings.length === 0) {
-			// add the schema for class 'scm:CityContent'
-			console.log('# creating City Content schema')
-			WOQL.query(Q
-					.doctype("CityContent").label("City Content")
-					.description('An Object of type City Content')
-					.property("id", "xsd:integer").label("City Content Id").cardinality(1)
-					.property("content_id", "xsd:integer").label("Content Id").cardinality(1)
-					.property("city_id", "xsd:integer").label("City Id").cardinality(1)
-					.property("name", "xsd:string").label("City Name")
-					/*
-					 * .and( WOQL.query(Q
-					 * .doctype("PersonContent").label("Person Content")
-					 * .description('An Object of type Person Content')
-					 * .property("id", "xsd:integer").label("Person Content
-					 * Id").cardinality(1) .property("content_id",
-					 * "xsd:integer").label("Content Id").cardinality(1)
-					 * .property("person_id", "xsd:integer").label("Person
-					 * Id").cardinality(1) .property("first_name",
-					 * "xsd:string").label("First Name") .property("last_name",
-					 * "xsd:string").label("Last Name") .property("age",
-					 * "xsd:integer").label("Person Age").cardinality(1) ))
-					 */        ).then(response => {
-					 }).catch(error => console.log('add City Content Data error', error))
-		} else {
-			console.log('# Database CityContent schema already created')
-			done()
-		}
-	})
-	.catch(error => console.log('CityContent error', error))
-}
-
-// check for PersonContent schema, add if missing
-const hasPersonContentSchema = () => {
-	console.log('# checking PersonContent schema')
-	// set database to use to MyDemo1
-	WOQL.db('MyDemo1')
-	// check if a class called 'scm:PersonContent' exists
-	// and is a sub of class 'system:Document'
-	WOQL.query(Q
-			.quad('v:Class', 'type', 'owl:Class', 'schema')
-			.sub('system:Document', 'v:Class')
-			.eq('v:Class', 'scm:PersonContent')
-	)
-	.then(response => {
-		if (response.bindings.length === 0) {
-			// add the schema for class 'scm:PersonContent'
-			console.log('# creating Person Content schema')
-			WOQL.query(Q
-					.doctype("PersonContent").label("Person Content")
-					.description('An Object of type Person Content')
-					.property("id", "xsd:integer").label("Person Content Id").cardinality(1)
-					.property("content_id", "xsd:integer").label("Content Id").cardinality(1)
-					.property("person_id", "xsd:integer").label("Person Id").cardinality(1)
-					.property("first_name", "xsd:string").label("First Name")
-					.property("last_name", "xsd:string").label("Last Name")
-					.property("age", "xsd:integer").label("Person Age").cardinality(1)
-					.property("city_id", "xsd:integer").label("City Id").cardinality(1)
-			).then(() => {
-				console.log('# PersonContent Schema Created')
-				done()
-			}).catch(error => console.log('add Person Content Data error', error))
-		} else {
-			console.log('# Database PersonContent schema already created')
-			done()
-		}
-	})
-	.catch(error => console.log('PersonContent error', error))
-}
-
-// check for Content schema, add if missing
-const hasCRTSchema = () => {
-	console.log('# checking Object schema')
-	// set database to use to MyDemo1
-	WOQL.db('MyDemo1')
-	// check if a class called 'scm:Object' exists
-	// and is a sub of class 'system:Document'
-	WOQL.query(Q
-			.quad('v:Class', 'type', 'owl:Class', 'schema')
-			.sub('system:Document', 'v:Class')
-			.eq('v:Class', 'scm:Object')
-	)
-	.then(response => {
-		if (response.bindings.length === 0) {
-			console.log('# creating Object schema')
-			// add the schema for class 'scm:Object'
-			WOQL.query(Q
-					.doctype('Object')
-					.label('Object')
-					.description('An Object is either a City, Person or Null')
-					.property('id', 'xsd:integer').cardinality(1)
-					.property('completed', 'xsd:boolean').cardinality(1)
-			).then(response => {
-				console.log('# created Object schema')
-				// add the schema for class 'scm:Object'
-				console.log('# creating City schema')
+				console.log('# Created Object Schema')
+				// add the Schema for class 'scm:Object'
+				console.log('# Creating City Schema')
 				WOQL.query(Q
 						.doctype("City").label("City").parent('Object')
 						.description('An Object of type City')
 						.property("object_id", "xsd:integer").label("Object Id").cardinality(1)
-// RER .property('id', 'xsd:integer').cardinality(1)
-// RER .property('completed', 'xsd:boolean').cardinality(1)
 				).then(response => {
-					console.log('# created City schema')
-					// add the schema for class 'scm:Person'
-					console.log('# creating Person schema')
+					console.log('# Created City Schema')
+					// add the Schema for class 'scm:Person'
+					console.log('# Creating Person Schema')
 					WOQL.query(Q
 							.doctype("Person").label("Person").parent('Object')
 							.description('An Object of type Person')
-// RER .property("person_object", "Person").label("Person Object")
-// RER .property("id", "xsd:integer").label("Person Id").cardinality(1)
 							.property("object_id", "xsd:integer").label("Object Id").cardinality(1)
 					).then(response => {
-						console.log('# created Person schema')
-						// add the schema for class 'scm:CityContent'
-						console.log('# creating City Content schema')
+						console.log('# Created Person Schema')
+						// add the Schema for class 'scm:CityContent'
+						console.log('# Creating City Content Schema')
 						WOQL.query(Q
 								.doctype("CityContent").label("City Content").parent('Object')
 								.description('An Object of type City Content')
-// RER .property("id", "xsd:integer").label("City Content Id").cardinality(1)
 								.property("cityContent_id", "xsd:integer").label("City Content Id").cardinality(1)
 								.property("ccity_id", "xsd:integer").label("City Id").cardinality(1)
 								.property("name", "xsd:string").label("City Name")
 						).then(response => {
-							console.log('# created City Content schema')
-							// add the schema for class 'scm:PersonContent'
-							console.log('# creating Person Content schema')
+							console.log('# Created City Content Schema')
+							// add the Schema for class 'scm:PersonContent'
+							console.log('# Creating Person Content Schema')
 							WOQL.query(Q
 									.doctype("PersonContent").label("Person Content").parent('Object')
 									.description('An Object of type Person Content')
-// RER .property("id", "xsd:integer").label("Person Content Id").cardinality(1)
 									.property("personContent_id", "xsd:integer").label("Person Content Id").cardinality(1)
 									.property("person_id", "xsd:integer").label("Person Id").cardinality(1)
 									.property("first_name", "xsd:string").label("First Name")
@@ -408,7 +110,7 @@ const hasCRTSchema = () => {
 									.property("age", "xsd:integer").label("Person Age").cardinality(1)
 									.property("pcity_id", "xsd:integer").label("City Id").cardinality(1)
 							).then(() => {
-								console.log('# created Person Content schema')
+								console.log('# Created Person Content Schema')
 								console.log('# CRT Schema Created')
 								done()
 							}).catch(error => console.log('add Person Content Data error', error))
@@ -417,7 +119,7 @@ const hasCRTSchema = () => {
 				}).catch(error => console.log('add City Data error', error))
 			}).catch(error => console.log('add Object Data error', error))
 		} else {
-			console.log('# Object schema already created')
+			console.log('# Object Schema already Created')
 			done()
 		}
 	})
@@ -426,7 +128,7 @@ const hasCRTSchema = () => {
 
 // Create some Object Object's
 const addObjectData = () => {
-	console.log('# checking Object schema')
+	console.log('# Checking Object Schema')
 	// set database to use to MyDemo1
 	WOQL.db('MyDemo1')
 	// check if a class called 'scm:Object' exists
@@ -514,7 +216,7 @@ const addObjectData = () => {
 
 // Create some City Object's
 const addCityData = () => {
-	console.log('# checking City schema')
+	console.log('# Checking City Schema')
 	// set database to use to MyDemo1
 	WOQL.db('MyDemo1')
 	// check if a class called 'scm:Object' exists
@@ -555,7 +257,7 @@ const addCityData = () => {
 
 // Create some Person Object's
 const addPersonData = () => {
-	console.log('# checking Person schema')
+	console.log('# Checking Person Schema')
 	// set database to use to MyDemo1
 	WOQL.db('MyDemo1')
 	// check if a class called 'scm:Object' exists
@@ -611,7 +313,7 @@ const addPersonData = () => {
 
 // Create some PersonContent Object's
 const addPersonContentData = () => {
-	console.log('# checking PersonContent schema')
+	console.log('# Checking PersonContent Schema')
 	// set database to use to MyDemo1
 	WOQL.db('MyDemo1')
 	// check if a class called 'scm:PersonContent' exists
@@ -744,7 +446,7 @@ const addPersonContentData = () => {
 
 // Create some CityContent Object's
 const addCityContentData = () => {
-	console.log('# checking CityContent schema')
+	console.log('# Checking CityContent Schema')
 	// set database to use to MyDemo1
 	WOQL.db('MyDemo1')
 	// check if a class called 'scm:Object' exists
@@ -829,5 +531,5 @@ const addCityContentData = () => {
 }
 
 const done = () => {
-	console.log('# done')
+	console.log('# Done')
 }
