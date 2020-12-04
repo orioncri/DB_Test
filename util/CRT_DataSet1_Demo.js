@@ -18,30 +18,32 @@ const Q = Client.WOQL
 
 // check for DB, create if missing
 const hasDB = () => {
-  console.log('# Checking Database')
+  console.log('# Checking CRT_Database')
   // use system database for this query
   WOQL.db('_system')
-  // check if a database with the label Master exists
+  // check if a database with the label CRT_Database exists
   WOQL.query(Q
       .triple('v:WOQL', 'type', 'system:Database')
       .triple('v:WOQL', 'label', 'v:Label')
-      .eq({ '@language': 'en', '@value': 'Master' }, 'v:Label')
+      .eq({ '@language': 'en', '@value': 'CRT_Database' }, 'v:Label')
   ).then(response => {
     if (response.bindings.length === 0) {
-      console.log('# Creating Database')
+      console.log('# Creating CRT_Database')
       // create the database
-      WOQL.createDatabase('Master', {
-        label: 'Master',
-        comment: 'DB for Master backend',
+      WOQL.createDatabase('CRT_Database', {
+        label: 'CRT_Database',
+        comment: 'DB for CRT_Database backend',
         schema: true
       }, 'admin')
       .then(() => {
         hasCRTSchema()
       })
     } else {
-      console.log('# has Database')
+      console.log('# CRT_Database Already Created')
+      checkoutMain()
       addRevision0()
       addRevision1()
+      createBranch_3_5()
     }
   }).catch(error => console.log('error', error))
 }
@@ -49,8 +51,8 @@ const hasDB = () => {
 // check for Object Schema, add if missing
 const hasCRTSchema = () => {
   console.log('# Checking Object Schema')
-  // set database to use to Master
-  WOQL.db('Master')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
   // check if a class called 'scm:Object' exists
   // and is a sub of class 'system:Document'
   WOQL.query(Q
@@ -131,11 +133,33 @@ const hasCRTSchema = () => {
   .catch(error => console.log('error', error))
 }
 
+//Checking out branch main
+const checkoutMain = () => {
+  console.log('# Set Database to CRT_Database')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
+
+  // Checkout the main branch
+  console.log('# Checkout Branch main')
+  let branchName="main"
+  WOQL.checkout(branchName)
+}
+
+//Create branch_3_5 main
+const createBranch_3_5 = () => {
+  console.log('# Set Database to CRT_Database')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
+
+  // Checkout the main branch
+  console.log('# Create branch_3_5')
+  let branchName="branch_3_5"
+  WOQL.branch(branchName)
+}
+
 //Add Revision 0 Data
 const addRevision0 = () => {
   console.log('# Checking Object Schema')
-  // set database to use to Master
-  WOQL.db('Master')
   // check if a class called 'scm:Object' exists
   // and is a sub of class 'system:Document'
   WOQL.query(Q
@@ -159,8 +183,8 @@ const addRevision0 = () => {
 //Add Revision 1 Data
 const addRevision1 = () => {
   console.log('# Checking Object Schema')
-  // set database to use to Master
-  WOQL.db('Master')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
   // check if a class called 'scm:Object' exists
   // and is a sub of class 'system:Document'
   WOQL.query(Q
@@ -281,8 +305,8 @@ const addRevision1 = () => {
 // Create some Object Object's
 const addObjectData = () => {
   console.log('# Checking Object Schema')
-  // set database to use to Master
-  WOQL.db('Master')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
   // check if a class called 'scm:Object' exists
   // and is a sub of class 'system:Document'
   WOQL.query(Q
@@ -369,8 +393,8 @@ const addObjectData = () => {
 // Create some City Object's
 const addCityData = () => {
   console.log('# Checking City Schema')
-  // set database to use to Master
-  WOQL.db('Master')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
   // check if a class called 'scm:Object' exists
   // and is a sub of class 'system:Document'
   WOQL.query(Q
@@ -411,8 +435,8 @@ const addCityData = () => {
 // Create some Person Object's
 const addPersonData = () => {
   console.log('# Checking Person Schema')
-  // set database to use to Master
-  WOQL.db('Master')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
   // check if a class called 'scm:Object' exists
   // and is a sub of class 'system:Document'
   WOQL.query(Q
@@ -467,8 +491,8 @@ const addPersonData = () => {
 //Create some CityContent Object's
 const addCityContentData = () => {
   console.log('# Checking CityContent Schema')
-  // set database to use to Master
-  WOQL.db('Master')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
   // check if a class called 'scm:Object' exists
   // and is a sub of class 'system:Document'
   WOQL.query(Q
@@ -553,8 +577,8 @@ const addCityContentData = () => {
 // Create some PersonContent Object's
 const addPersonContentData = () => {
   console.log('# Checking PersonContent Schema')
-  // set database to use to Master
-  WOQL.db('Master')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
   // check if a class called 'scm:PersonContent' exists
   // and is a sub of class 'system:Document'
   WOQL.query(Q
