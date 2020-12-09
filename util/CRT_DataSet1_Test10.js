@@ -43,7 +43,7 @@ const hasDB = () => {
       })
     } else {
       console.log('# CRT_Database Already Created')
-//RER      checkoutMain()
+      checkoutMain()
 //RER      addRevision0()
 //RER      addRevision1()
 //RER      createBranch_3_5()
@@ -53,10 +53,12 @@ const hasDB = () => {
 //RER      addRevision3()
 //RER      addRevision4()
 //RER      addRevision5()
-      checkoutBranch_6_8()
+//RER      checkoutBranch_6_8()
 //RER      addRevision6()
 //RER      addRevision7()
-      addRevision8()
+//RER      addRevision8()
+//RER      addRevision9()
+      addRevision10()
     }
   }).catch(error => console.log('error', error))
 }
@@ -899,6 +901,44 @@ const addRevision8 = () => {
 	      console.log('# Deleteed PersonContent Revision 8 D1')
 	    }).catch(error => console.log('Delete PersonContent Revision 8 D1 error', error))
 	  }).catch(error => console.log('PersonContent error', error))
+}
+
+//Add Revision 9 Data
+const addRevision9 = () => {
+  console.log('# Set Database to CRT_Database')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
+
+  // Checkout the main branch
+  console.log('# Merge branch_6_8 into Main')
+  let branchName="branch_6_8"
+  let branchMain="Main"
+  WOQL.merge(branchName, branchMain).then(() => {
+      console.log('# Merged branch_6_8 into Main')
+  }).catch(error => console.log('Merged branch_6_8 into Main error', error))
+}
+
+//Add Revision 6 Data
+const addRevision10 = () => {
+  console.log('# Checking Object Schema')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
+  
+  WOQL.query(Q
+	  .quad('v:Class', 'type', 'owl:Class', 'schema')
+	  .sub('system:Document', 'v:Class')
+	  .eq('v:Class', 'scm:CityContent')
+	  )
+	  .then(response => {
+	    console.log('# Change CityContent Revision 10 C6')
+	    WOQL.query(Q
+		    .delete_triple('doc:cityContent2', 'name', 'Name')
+            .add_triple('doc:cityContent2', 'name', Q.literal('Asstown', 'xsd:string'))
+	        .comment('Change CityContent Revision 10 C6')
+	    ).then(() => {
+	        console.log('# Changed CityContent Revision 10 C6')
+	    }).catch(error => console.log('Change CityContent Revision 10 C6 error', error))
+	  }).catch(error => console.log('CityContent Schema error', error))
 }
 
 // Create some Object Object's

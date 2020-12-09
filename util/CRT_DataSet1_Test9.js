@@ -56,7 +56,8 @@ const hasDB = () => {
       checkoutBranch_6_8()
 //RER      addRevision6()
 //RER      addRevision7()
-      addRevision8()
+//RER      addRevision8()
+      addRevision9()
     }
   }).catch(error => console.log('error', error))
 }
@@ -899,6 +900,21 @@ const addRevision8 = () => {
 	      console.log('# Deleteed PersonContent Revision 8 D1')
 	    }).catch(error => console.log('Delete PersonContent Revision 8 D1 error', error))
 	  }).catch(error => console.log('PersonContent error', error))
+}
+
+//Add Revision 9 Data
+const addRevision9 = () => {
+  console.log('# Set Database to CRT_Database')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
+
+  // Checkout the main branch
+  console.log('# Merge branch_6_8 into Main')
+  let branchName="branch_6_8"
+  let branchMain="Main"
+  WOQL.merge(branchName, branchMain).then(() => {
+      console.log('# Merged branch_6_8 into Main')
+  }).catch(error => console.log('Merged branch_6_8 into Main error', error))
 }
 
 // Create some Object Object's
