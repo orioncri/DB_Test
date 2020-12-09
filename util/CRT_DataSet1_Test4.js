@@ -48,8 +48,9 @@ const hasDB = () => {
 //RER      addRevision1()
 //RER      createBranch_3_5()
 //RER      addRevision2()
-      createBranch_6_8()
 //RER      checkoutBranch_3_5()
+//RER      addRevision3()
+      addRevision4()
     }
   }).catch(error => console.log('error', error))
 }
@@ -175,20 +176,6 @@ const createBranch_3_5 = () => {
   WOQL.branch(branchName).then(() => {
       console.log('# Created branch_3_5')
   }).catch(error => console.log('Create branch_3_5 error', error))
-}
-
-//Create branch_6_8 main
-const createBranch_6_8 = () => {
-  console.log('# Set Database to CRT_Database')
-  // set database to use to CRT_Database
-  WOQL.db('CRT_Database')
-
-  // Checkout the main branch
-  console.log('# Create branch_6_8')
-  let branchName="branch_6_8"
-  WOQL.branch(branchName).then(() => {
-      console.log('# Created branch_6_8')
-  }).catch(error => console.log('Create branch_6_8 error', error))
 }
 
 //Add Revision 0 Data
@@ -365,8 +352,8 @@ const addRevision2 = () => {
             .comment('Add Object Revision 2 A5')
         ).then(() => {
           console.log('# Added Object Revision 2 A5')
-        }).catch(error => console.log('Add Object Revision A5 error', error))
-    }).catch(error => console.log('Add Object Revision A4 error', error))
+        }).catch(error => console.log('Add Object Revision 2 A5 error', error))
+    }).catch(error => console.log('Add Object Revision 2 A4 error', error))
   }).catch(error => console.log('Object Schema error', error))
   
   console.log('# Checking City Schema')
@@ -455,6 +442,217 @@ const addRevision2 = () => {
     ).then(() => {
       console.log('# Added PersonContent Revision 2 A5')
     }).catch(error => console.log('Add PersonContent Revision 2 A5 error', error))
+  }).catch(error => console.log('PersonContent error', error))
+}
+
+//Add Revision 3 Data
+const addRevision3 = () => {
+  console.log('# Checking Object Schema')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
+  // check if a class called 'scm:Object' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:Object')
+  )
+  .then(response => {
+    console.log('# Add Object Revision 3 A6')
+    WOQL.query(Q
+            .add_triple('doc:object4', 'type', 'scm:Object')
+            .add_triple('doc:object4', 'id', Q.literal(5, 'xsd:integer'))
+            .add_triple('doc:object4', 'object_type', Q.literal('City', 'xsd:string'))
+        .comment('Add Object Revision 3 A6')
+    ).then(() => {
+        console.log('# Added Object Revision 3 A6')
+        console.log('# Add Object Revision 3 A7')
+        WOQL.query(Q
+            .add_triple('doc:object5', 'type', 'scm:Object')
+            .add_triple('doc:object5', 'id', Q.literal(6, 'xsd:integer'))
+            .add_triple('doc:object5', 'object_type', Q.literal('Person', 'xsd:string'))
+            .comment('Add Object Revision 3 A7')
+        ).then(() => {
+          console.log('# Added Object Revision 3 A7')
+        }).catch(error => console.log('Add Object Revision 3 A7 error', error))
+    }).catch(error => console.log('Add Object Revision 3 A6 error', error))
+  }).catch(error => console.log('Object Schema error', error))
+  
+  console.log('# Checking City Schema')
+  // check if a class called 'scm:City' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:City')
+  )
+  .then(response => {
+    console.log('# Add City Revision 3 A6')
+
+    WOQL.query(Q
+        .add_triple('doc:city2', 'type', 'scm:City')
+        .add_triple('doc:city2', 'cid', Q.literal(3, 'xsd:integer'))
+        .add_triple('doc:city2', 'c_object_id', Q.literal(5, 'xsd:integer'))
+        .comment('Add City Revision 3 A6')
+    ).then(() => {
+      console.log('# Added City Revision 3 A6')
+    }).catch(error => console.log('City Revision 3 A6 error', error))
+  }).catch(error => console.log('Add City Schema error', error))
+  
+  console.log('# Checking CityContent Schema')
+  // check if a class called 'scm:CityContent' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:CityContent')
+  )
+  .then(response => {
+    console.log('# Add CityContent Revision 3 A6')
+    WOQL.query(Q
+        .add_triple('doc:cityContent3', 'type', 'scm:CityContent')
+        .add_triple('doc:cityContent3', 'ccid', Q.literal(3, 'xsd:integer'))
+        .add_triple('doc:cityContent3', 'cityContent_id', Q.literal(5, 'xsd:integer'))
+        .add_triple('doc:cityContent3', 'ccity_id', Q.literal(5, 'xsd:integer'))
+        .add_triple('doc:cityContent3', 'name', Q.literal('Arlington', 'xsd:string'))
+        .comment('Add CityContent Revision 3 A6')
+    ).then(() => {
+        console.log('# Added CityContent Revision 3 A6')
+    }).catch(error => console.log('Add CityContent Revision 3 A6 error', error))
+  }).catch(error => console.log('CityContent Schema error', error))
+  
+  console.log('# Checking Person Schema')
+  // check if a class called 'scm:Object' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:Person')
+  )
+  .then(response => {
+    console.log('# Add Person Revision 3 A7')
+    WOQL.query(Q
+        .add_triple('doc:person2', 'type', 'scm:Person')
+        .add_triple('doc:person2', 'pid', Q.literal(3, 'xsd:integer'))
+        .add_triple('doc:person2', 'p_object_id', Q.literal(6, 'xsd:integer'))
+        .comment('Add Person Revision 3 A7')
+    ).then(() => {
+      console.log('# Added Person Revision 3 A7')
+    }).catch(error => console.log('Add Person Revision 3 A7 error', error))
+  }).catch(error => console.log('Person Schema error', error))
+  console.log('# Checking PersonContent Schema')
+  
+  // check if a class called 'scm:PersonContent' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:PersonContent')
+  )
+  .then(response => {
+    console.log('# Add PersonContent Revision 3 A7')
+    WOQL.query(Q
+            .add_triple('doc:personContent3', 'type', 'scm:PersonContent')
+            .add_triple('doc:personContent3', 'pcid', Q.literal(3, 'xsd:integer'))
+            .add_triple('doc:personContent3', 'personContent_id', Q.literal(6, 'xsd:integer'))
+            .add_triple('doc:personContent3', 'person_id', Q.literal(6, 'xsd:integer'))
+            .add_triple('doc:personContent3', 'first_name', Q.literal('Michaela', 'xsd:string'))
+            .add_triple('doc:personContent3', 'last_name', Q.literal('Kidd', 'xsd:string'))
+            .add_triple('doc:personContent3', 'age', Q.literal(21, 'xsd:integer'))
+            .add_triple('doc:personContent3', 'pcity_id', Q.literal(5, 'xsd:integer'))
+       .comment('Add PersonContent Revision 3 A7')
+    ).then(() => {
+      console.log('# Added PersonContent Revision 3 A7')
+    }).catch(error => console.log('Add PersonContent Revision 3 A7 error', error))
+  }).catch(error => console.log('PersonContent error', error))
+}
+
+//Add Revision 4 Data
+const addRevision4 = () => {
+  console.log('# Checking Object Schema')
+  // set database to use to CRT_Database
+  WOQL.db('CRT_Database')
+  // check if a class called 'scm:Object' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:Object')
+  )
+  .then(response => {
+    console.log('# Add Object Revision 4 A8')
+    WOQL.query(Q
+            .add_triple('doc:object6', 'type', 'scm:Object')
+            .add_triple('doc:object6', 'id', Q.literal(5, 'xsd:integer'))
+            .add_triple('doc:object6', 'object_type', Q.literal('Person', 'xsd:string'))
+        .comment('Add Object Revision 4 A8')
+    ).then(() => {
+        console.log('# Added Object Revision 4 A8')
+    }).catch(error => console.log('Add Object Revision 4 A8 error', error))
+  }).catch(error => console.log('Object Schema error', error))
+  
+  console.log('# Checking Person Schema')
+  // check if a class called 'scm:Object' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:Person')
+  )
+  .then(response => {
+    console.log('# Add Person Revision 4 A8')
+    WOQL.query(Q
+        .add_triple('doc:person3', 'type', 'scm:Person')
+        .add_triple('doc:person3', 'pid', Q.literal(4, 'xsd:integer'))
+        .add_triple('doc:person3', 'p_object_id', Q.literal(7, 'xsd:integer'))
+        .comment('Add Person Revision 4 A8')
+    ).then(() => {
+      console.log('# Added Person Revision 4 A8')
+    }).catch(error => console.log('Add Person Revision 4 C1 error', error))
+  }).catch(error => console.log('Person Schema error', error))
+  console.log('# Checking PersonContent Schema')
+  
+  // check if a class called 'scm:PersonContent' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:PersonContent')
+  )
+  .then(response => {
+    console.log('# Add PersonContent Revision 4 A8')
+    WOQL.query(Q
+        .add_triple('doc:personContent4', 'type', 'scm:PersonContent')
+        .add_triple('doc:personContent4', 'pcid', Q.literal(4, 'xsd:integer'))
+        .add_triple('doc:personContent4', 'personContent_id', Q.literal(7, 'xsd:integer'))
+        .add_triple('doc:personContent4', 'person_id', Q.literal(7, 'xsd:integer'))
+        .add_triple('doc:personContent4', 'first_name', Q.literal('Luis', 'xsd:string'))
+        .add_triple('doc:personContent4', 'last_name', Q.literal('Marrufo', 'xsd:string'))
+        .add_triple('doc:personContent4', 'age', Q.literal(22, 'xsd:integer'))
+        .add_triple('doc:personContent4', 'pcity_id', Q.literal(1, 'xsd:integer'))
+        .comment('Add PersonContent Revision 4 A8')
+    ).then(() => {
+      console.log('# Added PersonContent Revision 4 A8')
+    }).catch(error => console.log('Add PersonContent Revision 4 A8 error', error))
+  }).catch(error => console.log('PersonContent error', error))
+
+  // TODO - NEED TO HAVE AN UPDATE FOR THIS CHANGE
+  // check if a class called 'scm:PersonContent' exists
+  // and is a sub of class 'system:Document'
+  WOQL.query(Q
+      .quad('v:Class', 'type', 'owl:Class', 'schema')
+      .sub('system:Document', 'v:Class')
+      .eq('v:Class', 'scm:PersonContent')
+  )
+  .then(response => {
+    console.log('# Change PersonContent Revision 4 C1')
+    WOQL.query(Q
+        .delete_triple('doc:personContent2', 'first_name', 'v:First Name')
+        .add_triple('doc:personContent2', 'first_name', Q.literal('Kelley', 'xsd:string'))
+        .comment('Change PersonContent Revision 4 C1')
+    ).then(() => {
+      console.log('# Changed PersonContent Revision 4 C1')
+    }).catch(error => console.log('Change PersonContent Revision 4 C1 error', error))
   }).catch(error => console.log('PersonContent error', error))
 }
 
