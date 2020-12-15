@@ -43,7 +43,7 @@ const hasDB = () => {
       })
     } else {
       console.log('# CRT_Database Already Created')
-//RER      checkoutMain()
+      checkoutMain()
 //RER      addRevision0()
 //RER      addRevision1()
 //RER      createBranch_3_5()
@@ -53,7 +53,7 @@ const hasDB = () => {
 //RER      addRevision3()
 //RER      addRevision4()
 //RER      addRevision5()
-      checkoutBranch_6_8()
+//RER      checkoutBranch_6_8()
 //RER      addRevision6()
 //RER      addRevision7()
 //RER      addRevision8()
@@ -826,8 +826,10 @@ const addRevision7 = () => {
   // Checkout the main branch
   console.log('# Merge branch_3_5 into Main')
   let branchName="branch_3_5"
-  let branchMain="Main"
-  WOQL.merge(branchName, branchMain).then(() => {
+  var rebaseSource= {}
+  rebaseSource.rebase_from = branchName
+  rebaseSource.message = 'Merge branch_3_5 into Main'
+  WOQL.rebase(rebaseSource).then(() => {
       console.log('# Merged branch_3_5 into Main')
   }).catch(error => console.log('Merged branch_3_5 into Main error', error))
 }
@@ -911,8 +913,10 @@ const addRevision9 = () => {
   // Checkout the main branch
   console.log('# Merge branch_6_8 into Main')
   let branchName="branch_6_8"
-  let branchMain="Main"
-  WOQL.merge(branchName, branchMain).then(() => {
+  var rebaseSource= {}
+  rebaseSource.rebase_from = branchName
+  rebaseSource.message = 'Merge branch_6_* into Main'
+  WOQL.rebase(rebaseSource).then(() => {
       console.log('# Merged branch_6_8 into Main')
   }).catch(error => console.log('Merged branch_6_8 into Main error', error))
 }

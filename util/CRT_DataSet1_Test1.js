@@ -43,7 +43,7 @@ const hasDB = () => {
       })
     } else {
       console.log('# CRT_Database Already Created')
-//RER      checkoutMain()
+      checkoutMain()
 //RER      addRevision0()
 //RER      addRevision1()
       createBranch_3_5()
