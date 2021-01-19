@@ -1,9 +1,13 @@
 import os
 import shutil
+import datetime
 import logging
 from doltpy.core import Dolt, DoltException
 from doltpy.core.system_helpers import get_logger
 
+LOG_LEVEL = logging.FATAL
+logger = logging.getLogger()
+logger.setLevel(LOG_LEVEL)
 
 def main():
     cleanup()
@@ -49,16 +53,63 @@ def main():
     add_person(repo, "Scott", "Kelley", 22, "Valley Forge", 0)
     commit(repo, "R10 - User10")
 
+    print("Create User Branches")
+
     for branch in range(1,11):
         user_branch="User"+str(branch).zfill(2)
         create_branch(repo, user_branch)
 
+    print("Creating 10 Revisions for 10 User Branches")
+    start_time = datetime.datetime.now()
+
     for branch in range(1,11):
         user_branch="User"+str(branch).zfill(2)
         switch_branch(repo, user_branch)
-        for revId in range(1,11):
-            change_person_revid(repo, "Duane", revId)
-            commit(repo, "RevID="+str(revId).zfill(2))
+        for revId in range(1,300000):
+            if   branch == 1:
+                change_person_revid(repo, "Duane", revId)
+                comment="Duane    RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 2:
+                change_person_revid(repo, "Kelley", revId)
+                comment="Kelley   RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 3:
+                change_person_revid(repo, "Michaela", revId)
+                comment="Michaela RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 4:
+                change_person_revid(repo, "Luis", revId)
+                comment="Luis     RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 5:
+                change_person_revid(repo, "JD", revId)
+                comment="JD       RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 6:
+                change_person_revid(repo, "Ron", revId)
+                comment="Ron      RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 7:
+                change_person_revid(repo, "Jon", revId)
+                comment="Jon      RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 8:
+                change_person_revid(repo, "Randy", revId)
+                comment="Randy    RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 9:
+                change_person_revid(repo, "Sachin", revId)
+                comment="Sachin   RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+            elif branch == 10:
+                change_person_revid(repo, "Scott", revId)
+                comment="Scott    RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+ 
+    stop_time = datetime.datetime.now()
+    print(start_time)
+    print(stop_time)
 
 def create_view(repo):
     repo.sql(query='''
@@ -142,7 +193,7 @@ def add_tables(repo):
 def commit(repo, message):
     add_tables(repo)
     repo.commit(message)
-    show_view_status(repo)
+    #show_view_status(repo)
 
 def create_tables(repo):
     repo.sql(query='''
