@@ -1,5 +1,6 @@
 import os
 import shutil
+import math
 import datetime
 import logging
 from doltpy.core import Dolt, DoltException
@@ -16,93 +17,96 @@ def main():
     repo = Dolt.init(repo_path)
     create_tables(repo)
     create_view(repo)
-    commit(repo, "R0 - creating tables, views")
+    commit(repo, "Creating Tables and Views")
 
     add_city(repo, "Fort Worth")
     add_person(repo, "Duane", "Knesek", 25, "Fort Worth", 0)
-    commit(repo, "R1 - User01")
+    commit(repo, "Create - User01")
 
     add_city(repo, "Dallas")
     add_person(repo, "Kelley", "Hughes", 21, "Dallas", 0)
-    commit(repo, "R2 - User02")
+    commit(repo, "Create - User02")
 
     add_city(repo, "Arlington")
     add_person(repo, "Michaela", "Kidd", 22, "Arlington", 0)
-    commit(repo, "R3 - User03")
+    commit(repo, "Create - User03")
 
     add_person(repo, "Luis", "Marrufo", 22, "Fort Worth", 0)
-    commit(repo, "R4 - User04")
+    commit(repo, "Create - User04")
 
     add_person(repo, "JD", "Bone", 22, "Fort Worth", 0)
-    commit(repo, "R5 - User05")
+    commit(repo, "Create - User05")
 
     add_city(repo, "Denver")
-    add_person(repo, "Ron", "Rivas", 22, "Denver", 0)
-    commit(repo, "R6 - User06")
+    add_person(repo, "Ron", "Rivas", 63, "Denver", 0)
+    commit(repo, "Create - User06")
 
     add_person(repo, "Jon", "Krzycki", 22, "Denver", 0)
-    commit(repo, "R7 - User07")
+    commit(repo, "Create - User07")
 
     add_person(repo, "Randy", "Flint", 22, "Denver", 0)
-    commit(repo, "R8 - User08")
+    commit(repo, "Create - User08")
 
     add_city(repo, "Valley Forge")
     add_person(repo, "Sachin", "Patel", 22, "Valley Forge", 0)
-    commit(repo, "R9 - User09")
+    commit(repo, "Create - User09")
 
     add_person(repo, "Scott", "Kelley", 22, "Valley Forge", 0)
-    commit(repo, "R10 - User10")
+    commit(repo, "Create - User10")
 
-    print("Create User Branches")
+    print("Create 30 User Branches")
 
-    for branch in range(1,11):
+    for branch in range(1,31):
         user_branch="User"+str(branch).zfill(2)
         create_branch(repo, user_branch)
 
-    print("Creating 10 Revisions for 10 User Branches")
+    print("Creating 100,000 Revisions for every 30 User Branches")
     start_time = datetime.datetime.now()
 
-    for branch in range(1,11):
+    for branch in range(1,31):
         user_branch="User"+str(branch).zfill(2)
         switch_branch(repo, user_branch)
-        for revId in range(1,300000):
-            if   branch == 1:
+        for revId in range(1,100001):
+            if math.fmod(revId, 10000) == 0:
+                print("Branch/Revision", branch, "/", revId)
+
+            if   math.fmod(branch, 10) == 1:
                 change_person_revid(repo, "Duane", revId)
                 comment="Duane    RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 2:
+            elif math.fmod(branch, 10) == 2:
                 change_person_revid(repo, "Kelley", revId)
                 comment="Kelley   RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 3:
+            elif math.fmod(branch, 10) == 3:
                 change_person_revid(repo, "Michaela", revId)
                 comment="Michaela RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 4:
+            elif math.fmod(branch, 10) == 4:
                 change_person_revid(repo, "Luis", revId)
                 comment="Luis     RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 5:
+            elif math.fmod(branch, 10) == 5:
                 change_person_revid(repo, "JD", revId)
                 comment="JD       RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 6:
+            elif math.fmod(branch, 10) == 6:
                 change_person_revid(repo, "Ron", revId)
                 comment="Ron      RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 7:
+            elif math.fmod(branch, 10) == 7:
                 change_person_revid(repo, "Jon", revId)
                 comment="Jon      RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 8:
+            elif math.fmod(branch, 10) == 8:
                 change_person_revid(repo, "Randy", revId)
                 comment="Randy    RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 9:
+            elif math.fmod(branch, 10) == 9:
                 change_person_revid(repo, "Sachin", revId)
                 comment="Sachin   RevID="+str(revId).zfill(2)
                 commit(repo, comment)
-            elif branch == 10:
+            elif math.fmod(branch, 10) == 0:
                 change_person_revid(repo, "Scott", revId)
                 comment="Scott    RevID="+str(revId).zfill(2)
                 commit(repo, comment)
