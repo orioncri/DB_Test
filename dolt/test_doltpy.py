@@ -22,14 +22,14 @@ def main():
     print()
 
     answer = ''
-    printFlag = True
+    printFlag = False
 
     while answer != 'q':
         print("0 - List Branches")
         print("1 - List Commits")
         print("2 - Change Branch")
         print("3 - List Active Branch")
-        print("4 - Disable List Commits Printing")
+        print("4 - Enable List Commits Printing")
         print("5 - Create Branch")
         print("6 - Merge Branch")
         print("7 - Checkout a Revision")
@@ -74,7 +74,7 @@ def main():
             print()
 
         elif answer == '4':
-            printFlag = False
+            printFlag = True
 
         elif answer == '5':
             print()
@@ -106,8 +106,9 @@ def main():
             revision_id = int(input("Enter Revision ID : "))
             com_data = str(commits[revision_id]).split(":", 1)
             msg = com_data[1].split(" @ ", 1)
+            startBranch = "revision"+str(revision_id)
             start_time = datetime.datetime.now()
-            switch_branch(repo, com_data[0])
+            starting_point_branch(repo, startBranch, com_data[0])
             end_time = datetime.datetime.now()
             print("Total Merge Branch Time = ", end_time-start_time)
 
@@ -137,6 +138,10 @@ def merge_branch(repo, branch_name, message):
 
 def switch_branch(repo, branch_name):
     repo.checkout(branch_name)
+
+
+def starting_point_branch(repo, branch_name, start_point):
+    repo.checkout(start_point, None, True, branch_name)
 
 
 def remove_person(repo, table, condition):
