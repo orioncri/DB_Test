@@ -1,6 +1,7 @@
 import os
 import shutil
 import logging
+import datetime
 from doltpy.core import Dolt
 from doltpy.core.system_helpers import get_logger
 
@@ -18,20 +19,24 @@ def main():
     act_branch, branches = repo.branch()
     brn_cnt=len(branches)
 
-    commits = list(repo.log().values())
-    com_cnt=len(commits)
     print()
 
     answer = ''
+    printFlag = True
 
     while answer != 'q':
         print("0 - List Branches")
         print("1 - List Commits")
-        print("2 - Select Branch")
+        print("2 - Change Branch")
         print("3 - List Active Branch")
+        print("4 - Disable List Commits Printing")
+        print("5 - Create Branch")
+        print("6 - Merge Branch")
+        print("7 - Checkout a Revision")
         print("q - Quit")
         answer = input("Select item : ")
 
+        #try:
         if answer == '0':
             for brn_id in range(0,brn_cnt):
                 branchData = str(branches[brn_id]).split(":", 2)
@@ -39,16 +44,28 @@ def main():
                 print (branchName[0])
 
         elif answer == '1':
+            start_time = datetime.datetime.now()
+            commits = list(repo.log().values())
+            end_time = datetime.datetime.now()
+            com_cnt=len(commits)
+            print("Total Revisions = ", com_cnt)
+            print("Total Commit Revision Pull Time = ", end_time-start_time)
             for com_id in range(0,com_cnt):
                 com_data = str(commits[com_id]).split(":", 1)
                 msg = com_data[1].split(" @ ", 1)
-                print("commit_id: ", com_id, msg[1])
+                if printFlag == True:
+                    print("commit_id: ", com_id, msg[1])
 
         elif answer == '2':
             myBranch = input("Branch Name : ")
             switch_branch(repo, myBranch)
             act_branch, branches = repo.branch()
             brn_cnt=len(branches)
+            start_time = datetime.datetime.now()
+            commits = list(repo.log().values())
+            end_time = datetime.datetime.now()
+            com_cnt=len(commits)
+            print("Total Commit Revision Pull Time = ", end_time-start_time)
 
         elif answer == '3':
             print()
@@ -56,6 +73,50 @@ def main():
             print(act_branch)
             print()
 
+        elif answer == '4':
+            printFlag = False
+
+        elif answer == '5':
+            print()
+            print("Active Branch:")
+            print(act_branch)
+            print()
+            newBranch = input("Enter New Branch Name : ")
+            start_time = datetime.datetime.now()
+            create_branch(repo, newBranch)
+            end_time = datetime.datetime.now()
+            print("Total Create Branch Time = ", end_time-start_time)
+
+        elif answer == '6':
+            print()
+            print("Active Branch:")
+            print(act_branch)
+            print()
+            mergeBranch = input("Enter Merge Branch Name : ")
+            start_time = datetime.datetime.now()
+            merge_branch(repo, mergeBranch, "Merging Branch")
+            end_time = datetime.datetime.now()
+            print("Total Merge Branch Time = ", end_time-start_time)
+
+        elif answer == '7':
+            print()
+            print("Active Branch:")
+            print(act_branch)
+            print()
+            revision_id = int(input("Enter Revision ID : "))
+            com_data = str(commits[revision_id]).split(":", 1)
+            msg = com_data[1].split(" @ ", 1)
+            start_time = datetime.datetime.now()
+            switch_branch(repo, com_data[0])
+            end_time = datetime.datetime.now()
+            print("Total Merge Branch Time = ", end_time-start_time)
+
+        #except DoltException as derr:
+        #    print("Merge ExceDoltExceptionption", derr)
+        #    pass
+
+        #except:
+        #    pass
 
 def create_view(repo):
     repo.sql(query='''
@@ -70,7 +131,7 @@ def show_view_status(repo):
 
 
 def merge_branch(repo, branch_name, message):
-    switch_branch(repo, "master")
+    #switch_branch(repo, "master")
     repo.merge(branch_name, message)
 
 
