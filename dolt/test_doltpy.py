@@ -26,24 +26,34 @@ def main():
 
     while answer != 'q':
         print("0 - List Branches")
-        print("1 - List Commits")
-        print("2 - Change Branch")
-        print("3 - List Active Branch")
-        print("4 - Enable List Commits Printing")
-        print("5 - Create Branch")
-        print("6 - Merge Branch")
-        print("7 - Checkout a Revision")
+        print("1 - List Active Branch")
+        print("2 - Get Branch Commits/Revisions")
+        print("3 - Change Branch")
+        print("4 - Create Branch")
+        print("5 - Merge Branch")
+        print("6 - Delete Branch")
+        print("7 - List Revision Range")
+        print("8 - Checkout a Revision")
+        print("9 - Enable List Commits Printing")
         print("q - Quit")
         answer = input("Select item : ")
 
         #try:
         if answer == '0':
+            act_branch, branches = repo.branch()
+            brn_cnt=len(branches)
             for brn_id in range(0,brn_cnt):
                 branchData = str(branches[brn_id]).split(":", 2)
                 branchName = str(branchData[1]).split(",", 1)
                 print (branchName[0])
 
         elif answer == '1':
+            print()
+            print("Active Branch:")
+            print(act_branch)
+            print()
+
+        elif answer == '2':
             start_time = datetime.datetime.now()
             commits = list(repo.log().values())
             end_time = datetime.datetime.now()
@@ -56,7 +66,7 @@ def main():
                 if printFlag == True:
                     print("commit_id: ", com_id, msg[1])
 
-        elif answer == '2':
+        elif answer == '3':
             myBranch = input("Branch Name : ")
             switch_branch(repo, myBranch)
             act_branch, branches = repo.branch()
@@ -67,16 +77,7 @@ def main():
             com_cnt=len(commits)
             print("Total Commit Revision Pull Time = ", end_time-start_time)
 
-        elif answer == '3':
-            print()
-            print("Active Branch:")
-            print(act_branch)
-            print()
-
         elif answer == '4':
-            printFlag = True
-
-        elif answer == '5':
             print()
             print("Active Branch:")
             print(act_branch)
@@ -87,7 +88,7 @@ def main():
             end_time = datetime.datetime.now()
             print("Total Create Branch Time = ", end_time-start_time)
 
-        elif answer == '6':
+        elif answer == '5':
             print()
             print("Active Branch:")
             print(act_branch)
@@ -98,7 +99,30 @@ def main():
             end_time = datetime.datetime.now()
             print("Total Merge Branch Time = ", end_time-start_time)
 
+        elif answer == '6':
+            print()
+            print("Active Branch:")
+            print(act_branch)
+            print()
+            deleteBranch = input("Enter Branch Name To Delete : ")
+            start_time = datetime.datetime.now()
+            delete_branch(repo, deleteBranch)
+            end_time = datetime.datetime.now()
+            print("Total Create Branch Time = ", end_time-start_time)
+
         elif answer == '7':
+            print()
+            print("Active Branch:")
+            print(act_branch)
+            print()
+            revision_id = int(input("Enter Start Revision ID : "))
+            revision_max = int(input("Enter Revision Range : "))
+            for com_id in range(revision_id,revision_id+revision_max):
+                com_data = str(commits[com_id]).split(":", 1)
+                msg = com_data[1].split(" @ ", 1)
+                print("commit_id: ", com_id, msg[1])
+
+        elif answer == '8':
             print()
             print("Active Branch:")
             print(act_branch)
@@ -111,6 +135,10 @@ def main():
             starting_point_branch(repo, startBranch, com_data[0])
             end_time = datetime.datetime.now()
             print("Total Merge Branch Time = ", end_time-start_time)
+
+        elif answer == '9':
+            printFlag = True
+
 
         #except DoltException as derr:
         #    print("Merge ExceDoltExceptionption", derr)
@@ -138,6 +166,10 @@ def merge_branch(repo, branch_name, message):
 
 def switch_branch(repo, branch_name):
     repo.checkout(branch_name)
+
+
+def delete_branch(repo, branch_name):
+    repo.branch(branch_name, None, None, True, True, False, False)
 
 
 def starting_point_branch(repo, branch_name, start_point):

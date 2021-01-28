@@ -23,55 +23,14 @@ def main():
     # Open an existing repository
     repo = Dolt(repo_path)
 
-    add_city(repo, "Fort Worth")
-    add_person(repo, "Duane", "Knesek", 25, "Fort Worth", 0)
-    commit(repo, "Create - User01")
-
-    add_city(repo, "Dallas")
-    add_person(repo, "Kelley", "Hughes", 21, "Dallas", 0)
-    commit(repo, "Create - User02")
-
-    add_city(repo, "Arlington")
-    add_person(repo, "Michaela", "Kidd", 22, "Arlington", 0)
-    commit(repo, "Create - User03")
-
-    add_person(repo, "Luis", "Marrufo", 22, "Fort Worth", 0)
-    commit(repo, "Create - User04")
-
-    add_person(repo, "JD", "Bone", 22, "Fort Worth", 0)
-    commit(repo, "Create - User05")
-
-    add_city(repo, "Denver")
-    add_person(repo, "Ron", "Rivas", 63, "Denver", 0)
-    commit(repo, "Create - User06")
-
-    add_person(repo, "Jon", "Krzycki", 22, "Denver", 0)
-    commit(repo, "Create - User07")
-
-    add_person(repo, "Randy", "Flint", 22, "Denver", 0)
-    commit(repo, "Create - User08")
-
-    add_city(repo, "Valley Forge")
-    add_person(repo, "Sachin", "Patel", 22, "Valley Forge", 0)
-    commit(repo, "Create - User09")
-
-    add_person(repo, "Scott", "Kelley", 22, "Valley Forge", 0)
-    commit(repo, "Create - User10")
-
-    print("Create 30 User Branches")
-
-    for branch in range(1,31):
-        user_branch="User"+str(branch).zfill(2)
-        create_branch(repo, user_branch)
-
-    print("Creating 100,000 Revisions for every 30 User Branches")
+    print("Creating 1,000 Revisions for every 30 User Branches")
     start_time = datetime.datetime.now()
 
-    for branch in range(1,31):
+    for branch in range(8,31):
         user_branch="User"+str(branch).zfill(2)
         switch_branch(repo, user_branch)
-        for revId in range(1,100001):
-            if math.fmod(revId, 10000) == 0:
+        for revId in range(1,1001):
+            if math.fmod(revId, 1000) == 0:
                 print("Branch/Revision", branch, "/", revId)
 
             if   math.fmod(branch, 10) == 1:
