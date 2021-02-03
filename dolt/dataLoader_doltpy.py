@@ -6,13 +6,13 @@ from doltpy.core.system_helpers import get_logger
 
 
 def main():
-    cleanup()
+    #cleanup()
 
     repo_path = "."
     repo = Dolt.init(repo_path)
-    create_tables(repo)
-    create_view(repo)
-    commit(repo, "R0 - creating tables, views")
+    #create_tables(repo)
+    #create_view(repo)
+    #commit(repo, "R0 - creating tables, views")
 
     add_city(repo, "fort worth")
     add_person(repo, "Duane", "Knesek", 25, "fort worth")
