@@ -21,6 +21,8 @@ def main():
     branch, start, stop, person, size = get_args()
     dolt_utils.switch_branch(repo, branch)
     batch_revisions(repo, start, stop, size, person)
+    repo.add(["person"])
+    repo.commit(f"End of batch for {person}")
 
     stop_time = datetime.datetime.now()
 
@@ -30,23 +32,26 @@ def main():
 
 
 def batch_revisions(repo, start, stop, step, name):
+    if start >= stop:
+        print(f"ERROR: start should be greater than stop: {start} !< {stop}")
+
     print(f"Revisions {start} - {stop} for {name}")
-    while start <= stop:
-        #print(f"    Batch {start:>3} - {start+step-1:>3}")
+    while start < stop:
+        print(f"    Batch {start:>3} - {start+step-1:>3}")
         _create_revisions_via_batches(repo, start, start+step, name)
         start = start + step
 
 def _create_revisions_via_batches(repo, start, stop, name):
     batch_query = ""
     for revId in range(start,stop):
-        batch_query += change_person_revid_query_string(repo, 1, revId)
+        batch_query += change_person_revid_query_string(repo, name, revId)
         message = f"{name}    RevID={revId:0>2}"
         batch_query += commit_via_sql_string(repo, message)
 
     repo.sql(query=batch_query, result_format="tabular", batch=True)
 
 def change_person_revid_query_string(repo, person, revision):
-    query = f"UPDATE person SET rev_id = {revision} WHERE id='{person}'; "
+    query = f"UPDATE person SET rev_id = {revision} WHERE first_name='{person}';"
     return query
 
 def commit_via_sql_string(repo, message):
