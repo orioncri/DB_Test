@@ -35,10 +35,13 @@ def main():
         print("7 - List Revision Range")
         print("8 - Checkout a Revision")
         print("9 - Enable List Commits Printing")
+        print("10- Add Revisions")
+        print("11- Batch Revisions")
         print("q - Quit")
         answer = input("Select item : ")
 
         #try:
+        # List Branches
         if answer == '0':
             act_branch, branches = repo.branch()
             brn_cnt=len(branches)
@@ -47,12 +50,14 @@ def main():
                 branchName = str(branchData[1]).split(",", 1)
                 print (branchName[0])
 
+        # List Active Branch
         elif answer == '1':
             print()
             print("Active Branch:")
             print(act_branch)
             print()
 
+        # Get Branch Commits/Revisions
         elif answer == '2':
             start_time = datetime.datetime.now()
             commits = list(repo.log().values())
@@ -66,6 +71,7 @@ def main():
                 if printFlag == True:
                     print("commit_id: ", com_id, msg[1])
 
+        # Change Branch
         elif answer == '3':
             myBranch = input("Branch Name : ")
             switch_branch(repo, myBranch)
@@ -77,6 +83,7 @@ def main():
             com_cnt=len(commits)
             print("Total Commit Revision Pull Time = ", end_time-start_time)
 
+        # Create Branch
         elif answer == '4':
             print()
             print("Active Branch:")
@@ -88,6 +95,7 @@ def main():
             end_time = datetime.datetime.now()
             print("Total Create Branch Time = ", end_time-start_time)
 
+        # Merge Branch
         elif answer == '5':
             print()
             print("Active Branch:")
@@ -99,6 +107,7 @@ def main():
             end_time = datetime.datetime.now()
             print("Total Merge Branch Time = ", end_time-start_time)
 
+        # Delete Branch
         elif answer == '6':
             print()
             print("Active Branch:")
@@ -110,6 +119,7 @@ def main():
             end_time = datetime.datetime.now()
             print("Total Create Branch Time = ", end_time-start_time)
 
+        # List Revision Range
         elif answer == '7':
             print()
             print("Active Branch:")
@@ -122,6 +132,7 @@ def main():
                 msg = com_data[1].split(" @ ", 1)
                 print("commit_id: ", com_id, msg[1])
 
+        # Checkout a Revision
         elif answer == '8':
             print()
             print("Active Branch:")
@@ -136,8 +147,44 @@ def main():
             end_time = datetime.datetime.now()
             print("Total Merge Branch Time = ", end_time-start_time)
 
+        # Enable List Commits Printing
         elif answer == '9':
             printFlag = True
+
+        # Add Revisions
+        elif answer == '10':
+            print()
+            print("Active Branch:")
+            print(act_branch)
+            print()
+            person = str(input("Enter First Name : "))
+            revision_id = int(input("Enter Start Revision ID : "))
+            revision_max = int(input("Enter End Revision ID : "))
+            start_time = datetime.datetime.now()
+            for revId in range(revision_id,revision_max+1):
+                change_person_revid(repo, person, revId)
+                comment=f"{person}      RevID="+str(revId).zfill(2)
+                commit(repo, comment)
+
+            end_time = datetime.datetime.now()
+            print("Total Revision Addition Time = ", end_time-start_time)
+            print(f"Revisions {revision_id} -> {revision_max}")
+
+        # Batch Revisions
+        elif answer == '11':
+            print()
+            print("Active Branch:")
+            print(act_branch)
+            print()
+            person = str(input("Enter First Name : "))
+            revision_id = int(input("Enter Start Revision ID : "))
+            revision_max = int(input("Enter Revision Range : "))
+            step = 50
+            start_time = datetime.datetime.now()
+            batch_revisions(repo, revision_id, revision_max, step, person)
+
+            end_time = datetime.datetime.now()
+            print("Total Revision Addition Time = ", end_time-start_time)
 
 
         #except DoltException as derr:
@@ -147,6 +194,29 @@ def main():
         #except:
         #    pass
 
+def batch_revisions(repo, start, stop, step, name):
+    print(f"Revisions {start} - {stop} for {name}")
+    while start <= stop:
+        print(f"    Batch {start:>3} - {start+step-1:>3}")
+        _create_revisions_via_batches(repo, start, start+step, name)
+        start = start + step
+
+
+def _create_revisions_via_batches(repo, start, stop, name):
+    batch_query = ""
+    for revId in range(start,stop):
+        batch_query += change_person_revid_query_string(repo, name, revId)
+        message = f"{name}    RevID={revId:0>2}"
+        batch_query += commit_via_sql_string(repo, message)
+
+    repo.sql(query=batch_query, result_format="tabular", batch=True)
+
+
+def commit_via_sql_string(repo, message):
+    query = f"SELECT DOLT_COMMIT('-a', '-m', '{message}', '--allow-empty') ; "
+    return query
+
+
 def create_view(repo):
     repo.sql(query='''
         CREATE VIEW PersonView AS 
@@ -155,7 +225,7 @@ def create_view(repo):
 
 
 def show_view_status(repo):
-    print("Person View")
+    #print("Person View")
     repo.sql(query="SELECT * FROM PersonView", result_format="tabular")
 
 
@@ -190,6 +260,15 @@ def change_person(repo, column, before, after):
     query = f"UPDATE person SET {column} = '{after}' WHERE {column} ='{before}'"
     repo.sql(query=query, result_format="tabular")
 
+
+def change_person_revid(repo, person, revision):
+    query = f"UPDATE person SET rev_id = {revision} WHERE first_name ='{person}'"
+    repo.sql(query=query, result_format="tabular")
+
+
+def change_person_revid_query_string(repo, person, revision):
+    query = f"UPDATE person SET rev_id = {revision} WHERE id='{person}'; "
+    return query
 
 def get_city_id_from_name(repo, city_name):
     query = f"SELECT id FROM city where name='{city_name}'"
@@ -230,9 +309,10 @@ def add_tables(repo):
 
 
 def commit(repo, message):
-    add_tables(repo)
+    #add_tables(repo)
+    repo.add(['person'])
     repo.commit(message)
-    show_view_status(repo)
+    #show_view_status(repo)
 
 
 def create_tables(repo):
